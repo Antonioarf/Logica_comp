@@ -3,19 +3,24 @@ argv.pop(0)
 programa =''
 for e in argv:
     programa += e.replace(" ", "")
-print(programa)
-numeros = []
-operacoes = ['+']
+
 if not programa[0].isnumeric():
     raise Exception("Sintax error: equacao nao pode comecar com sinal")
-
+numeros = []
+operacoes = ['+']
+ultimo_n= False
 for l in programa:
     if l.isnumeric():
-        numeros.append(l)
+        if ultimo_n:
+            numeros[-1] +=l
+        else:
+            numeros.append(l)
+        ultimo_n=True
     elif l =='+'or l=='-':
         operacoes.append(l)
+        ultimo_n=False
     else:
-        raise Exception("Invalid Char")
+        raise Error("Invalid Char")
 
 soma = 0
 for e in range(len(numeros)):
