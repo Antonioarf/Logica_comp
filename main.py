@@ -1,5 +1,3 @@
-#falta:
-#1   1
 from sys import argv
 argv.pop(0)
 programa =''
@@ -7,12 +5,12 @@ anterior = False
 for e in argv:
     if e[0].isnumeric() and anterior: 
         raise Exception("Numero espaco Numero")
+    programa += e
     if e[-1].isnumeric():
         anterior=True
-    programa += e.replace(" ", "")
 
 if (not programa[0].isnumeric()) or (not programa[-1].isnumeric()):
-    raise Exception("Sintax error: equacao nao pode comecar com sinal")
+    raise Exception("Sintax error: equacao nao pode comecar ou terminar com sinal")
 numeros = []
 operacoes = ['+']
 ultimo_n= False
