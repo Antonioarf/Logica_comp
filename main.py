@@ -33,7 +33,8 @@ class Tolkenizer:
                 self.next = Token('','minus')
                 ultimo_n=False
                 pulo+=1
-                
+            elif self.source[index]==' ':
+                pass
             else:
                 raise Exception("Invalid Char",self.source,self.source[index])
             index+=pulo
@@ -69,7 +70,7 @@ class Parser:
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-            print(soma)
+        print(soma)
 
 
 
