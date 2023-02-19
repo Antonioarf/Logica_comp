@@ -61,20 +61,22 @@ class Parser:
                 raise Exception("Tipo repetido")
             else:
                 if tipo_atual == "EOF":
-                    print("SOMA:::::", soma)
                     break
 
             if tipo_atual == 'plus':
-
                 soma+= int(tolk.next.value)
             elif tipo_atual == 'minus': 
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-
+            print(tolk.next.value)
+            print(tolk.next.type)
+            print("soma:")
             print(soma)
+            print("------")
+            
 
-
+ 
 
 argv.pop(0)
 programa = " ".join(argv)
