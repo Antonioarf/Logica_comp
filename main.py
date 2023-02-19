@@ -34,7 +34,7 @@ class Tolkenizer:
                 pulo+=1
                 
             else:
-                raise Exception("Invalid Char")
+                raise Exception("Invalid Char",self.source)
             index+=pulo
             self.position = index
             return self.next
