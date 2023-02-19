@@ -1,36 +1,81 @@
 from sys import argv
+
+
+class Token:
+    def __init__(self,v,t):
+        self.type = t
+        self.value=v
+
+class Tolkenizer:
+    def cria(self,s):
+        self.source= s 
+        self.position= 0
+        self.next = Token('','plus') 
+    def selectNext(self):
+        ultimo_n= False
+        index= self.position
+        while index < len(self.source):    
+            pulo = 0
+            if self.source[index].isnumeric():
+                
+                while self.source[index+pulo].isnumeric():
+                    pulo+=1
+                    if index+pulo>= len(self.source): break
+                numero = self.source[index:index+pulo]
+                self.next = Token(numero,'int')
+
+            elif self.source[index] =='+':
+                self.next = Token('','plus')
+                ultimo_n=False
+                pulo+=1
+            elif self.source[index]=='-':
+                self.next = Token('','minus')
+                ultimo_n=False
+                pulo+=1
+                
+            else:
+                raise Exception("Invalid Char")
+            index+=pulo
+            self.position = index
+            return self.next
+
+        self.next = Token('','EOF')
+        return self.next
+
+class Parser:
+    tolk = Tolkenizer()
+    def parseExepresion():
+        pass
+        
+    def run(self, s):
+        tolk = Tolkenizer()
+        tolk.cria(s)
+        
+        tipo_atual = "plus"
+        soma = 0
+        while tipo_atual != "EOF":
+            tolk.selectNext()
+            if tolk.next.type == tipo_atual:
+                raise Exception("Tipo repetido")
+            else:
+                if tipo_atual == "EOF":
+                    print("SOMA:::::", soma)
+                    break
+
+            if tipo_atual == 'plus':
+
+                soma+= int(tolk.next.value)
+            elif tipo_atual == 'minus': 
+
+                soma-= int(tolk.next.value)
+            tipo_atual = tolk.next.type
+
+        print("soma:", soma)
+
+
+
 argv.pop(0)
-programa =''
-anterior = False
-for e in argv:
-    if e[0].isnumeric() and anterior: 
-        raise Exception("Numero espaco Numero")
-    programa += e
-    if e[-1].isnumeric():
-        anterior=True
+programa = "".join(argv)
 
-if (not programa[0].isnumeric()) or (not programa[-1].isnumeric()):
-    raise Exception("Sintax error: equacao nao pode comecar ou terminar com sinal")
-numeros = []
-operacoes = ['+']
-ultimo_n= False
-for l in programa:
-    if l.isnumeric():
-        if ultimo_n:
-            numeros[-1] +=l
-        else:
-            numeros.append(l)
-        ultimo_n=True
-    elif l =='+'or l=='-':
-        operacoes.append(l)
-        ultimo_n=False
-    else:
-        raise Error("Invalid Char")
-
-soma = 0
-for e in range(len(numeros)):
-    if operacoes[e]== '+':
-        soma+= int(numeros[e]) 
-    if operacoes[e]== '-':
-        soma -= int(numeros[e]) 
-print(soma)
+roda = Parser()
+roda.run(programa)
