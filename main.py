@@ -16,12 +16,13 @@ class Tolkenizer:
         index= self.position
         while index < len(self.source):    
             pulo = 0
+            if self.source[index]==' ':
+                index+=1 
             if self.source[index].isnumeric():
                 
                 while self.source[index+pulo].isnumeric():
                     pulo+=1
-                    if index+pulo>= len(self.source): 
-                        break
+                    if index+pulo>= len(self.source): break
                 numero = self.source[index:index+pulo]
                 self.next = Token(numero,'int')
 
@@ -33,10 +34,9 @@ class Tolkenizer:
                 self.next = Token('','minus')
                 ultimo_n=False
                 pulo+=1
-            elif self.source[index]==' ':
-                pass
+
             else:
-                raise Exception("Invalid Char",self.source,self.source[index])
+                raise Exception("Invalid Char")
             index+=pulo
             self.position = index
             return self.next
@@ -58,9 +58,10 @@ class Parser:
         while tipo_atual != "EOF":
             tolk.selectNext()
             if tolk.next.type == tipo_atual:
-                raise Exception("Tipo repetido", tipo_atual)
+                raise Exception("Tipo repetido")
             else:
                 if tipo_atual == "EOF":
+                    print("SOMA:::::", soma)
                     break
 
             if tipo_atual == 'plus':
@@ -70,12 +71,12 @@ class Parser:
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-            print(soma)
+
+        print(soma)
 
 
 
 argv.pop(0)
-programa = "".join(argv)
-
+programa = " ".join(argv)
 roda = Parser()
 roda.run(programa)
