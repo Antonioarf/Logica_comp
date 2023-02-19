@@ -36,7 +36,7 @@ class Tolkenizer:
                 pulo+=1
 
             else:
-                raise Exception("Invalid Char")
+                raise Exception("Invalid Char", self.source[index])
             index+=pulo
             self.position = index
             return self.next
@@ -72,7 +72,7 @@ class Parser:
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
 
-        print(soma)
+            print(soma)
 
 
 
