@@ -20,7 +20,8 @@ class Tolkenizer:
                 
                 while self.source[index+pulo].isnumeric():
                     pulo+=1
-                    if index+pulo>= len(self.source): break
+                    if index+pulo>= len(self.source): 
+                        break
                 numero = self.source[index:index+pulo]
                 self.next = Token(numero,'int')
 
@@ -68,8 +69,7 @@ class Parser:
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-
-        print(soma)
+            print(soma)
 
 
 
