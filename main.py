@@ -58,7 +58,7 @@ class Parser:
         while tipo_atual != "EOF":
             tolk.selectNext()
             if tolk.next.type == tipo_atual:
-                raise Exception("Tipo repetido")
+                raise Exception("Tipo repetido", tipo_atual)
             else:
                 if tipo_atual == "EOF":
                     break
@@ -70,7 +70,7 @@ class Parser:
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-        print(soma)
+            print(soma)
 
 
 
