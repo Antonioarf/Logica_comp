@@ -16,7 +16,7 @@ class Tolkenizer:
         index= self.position
         while index < len(self.source):    
             pulo = 0
-            if self.source[index]==' ':
+            while self.source[index]==' ':
                 index+=1 
             if self.source[index].isnumeric():
                 
@@ -80,5 +80,6 @@ class Parser:
 
 argv.pop(0)
 programa = " ".join(argv)
+print(programa)
 roda = Parser()
 roda.run(programa)
