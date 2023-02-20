@@ -69,7 +69,7 @@ class Parser:
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-            print(soma)
+        print(soma)
             
 
  
