@@ -69,17 +69,12 @@ class Parser:
 
                 soma-= int(tolk.next.value)
             tipo_atual = tolk.next.type
-            print(tolk.next.value)
-            print(tolk.next.type)
-            print("soma:")
             print(soma)
-            print("------")
             
 
  
 
 argv.pop(0)
 programa = " ".join(argv)
-print(programa)
 roda = Parser()
 roda.run(programa)
