@@ -26,11 +26,11 @@ class Parser:
 
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
             Parser.tolk.selectNext()
-
-            #print("teste",Parser.tolk.next.value)
-            
+            # print('----------')
+            # print("teste",Parser.tipo_atual)
+            # print('t2',Parser.tolk.next.type )
             if Parser.tolk.next.type == Parser.tipo_atual:
-                Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
+                raise Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
 
 
             if Parser.tipo_atual == 'times':
