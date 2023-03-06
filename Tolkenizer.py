@@ -40,6 +40,14 @@ class Tolkenizer:
                 self.next = Token('sinal','div')
                 ultimo_n=False
                 pulo+=1
+            elif self.source[index]=='(':
+                self.next = Token('par','O_par')
+                ultimo_n=False
+                pulo+=1
+            elif self.source[index]==')':
+                self.next = Token('par','C_par')
+                ultimo_n=False
+                pulo+=1
             else:
                 raise Exception("Invalid Char", self.source[index])
             index+=pulo
