@@ -7,45 +7,42 @@ class Parser:
 
 
     def parseExepresion():
-        soma = 0
-        Parser.tolk.selectNext()
-        while Parser.tipo_atual != "EOF":
+        soma = Parser.parseTerm()
+        print('soma:@@@@',soma)
+        while True:
+            print('@@@@@@@@@@@@')
             
-            if Parser.tolk.next.type == Parser.tipo_atual:
-                raise Exception("Tipo repetido")
-            else:
-                if Parser.tipo_atual == "EOF":
-                    break
-
-            if Parser.tipo_atual == 'plus':
-                soma += int(Parser.tolk.next.value)
-            elif Parser.tipo_atual == 'minus': 
-                soma -= int(Parser.tolk.next.value)
-
-            Parser.tipo_atual = Parser.tolk.next.type
-
+            if Parser.tolk.next.type == 'plus':
+                soma +=  Parser.parseTerm()
+            elif Parser.tolk.next.type == 'minus':
+                soma -=  Parser.parseTerm()
+            elif Parser.tolk.next.type == 'EOF':
+                break
         return soma
-
 
     def parseTerm():
         soma = 1
         Parser.tipo_atual= 'times'
 
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
+            Parser.tolk.selectNext()
 
+            print("teste",Parser.tolk.next.value)
             
             if Parser.tolk.next.type == Parser.tipo_atual:
-                raise Exception("Tipo repetido")
+                Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
 
 
             if Parser.tipo_atual == 'times':
                 soma *= int(Parser.tolk.next.value)
             elif Parser.tipo_atual == 'div': 
                 soma /= int(Parser.tolk.next.value)
-
+                
             Parser.tipo_atual = Parser.tolk.next.type
 
-            Parser.tolk.selectNext()
+            print('soma::',soma)
+            print(Parser.tipo_atual)
+        print('!!!!!!!!1',Parser.tolk.next.type)
         return soma
 
     

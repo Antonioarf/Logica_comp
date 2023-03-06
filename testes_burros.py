@@ -26,3 +26,21 @@ class Parser:
             tipo_atual = tolk.next.type
         print(soma)
 
+
+while Parser.tipo_atual != "EOF":
+            Parser.tolk.selectNext()
+            if Parser.tolk.next.type == Parser.tipo_atual:
+                raise Exception("Tipo repetido@@@@: {}".format(Parser.tipo_atual))
+            else:
+                if Parser.tipo_atual == "EOF":
+                    break
+
+            if Parser.tipo_atual == 'plus':
+                soma += int(Parser.parseTerm())
+            elif Parser.tipo_atual == 'minus': 
+                soma -= int(Parser.parseTerm())
+            
+            
+
+            Parser.tipo_atual = Parser.tolk.next.type
+            
