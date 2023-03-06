@@ -8,10 +8,7 @@ class Parser:
 
     def parseExepresion():
         soma = Parser.parseTerm()
-        #print('soma:@@@@',soma)
-        while True:
-            #print('@@@@@@@@@@@@')
-            
+        while True:            
             if Parser.tolk.next.type == 'plus':
                 soma +=  Parser.parseTerm()
             elif Parser.tolk.next.type == 'minus':
@@ -26,26 +23,31 @@ class Parser:
 
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
             Parser.tolk.selectNext()
-            # print('----------')
-            # print("teste",Parser.tipo_atual)
-            # print('t2',Parser.tolk.next.type )
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
 
 
             if Parser.tipo_atual == 'times':
-                soma *= int(Parser.tolk.next.value)
+                soma *= Parser.parseFactor() #passa a ser Parser.parseFactor
             elif Parser.tipo_atual == 'div': 
-                soma /= int(Parser.tolk.next.value)
+                soma //= Parser.parseFactor()
                 
             Parser.tipo_atual = Parser.tolk.next.type
-
-            #print('soma::',soma)
-            #print(Parser.tipo_atual)
-        #print('!!!!!!!!1',Parser.tolk.next.type)
         return soma
-
-    
+    def parseFactor():
+        Parser.tolk.selectNext()
+        print(Parser.tolk.next.type)
+        if Parser.tolk.next.type == 'minus':
+            return  - Parser.parseFactor()
+        if Parser.tolk.next.type == 'plus':
+            return + Parser.parseFactor()
+        if Parser.tolk.next.type == 'int':
+            return int(Parser.tolk.next.value)
+        #recursivo: if numero retorna numero
+        #elif - retorna (-parseFactor)
+        #elif + retorna (parseFactor)
+        #fazer recursao tipo rashi e ai o ultimo elif
+        #elif () chama o parseExpression return depois de tirar o ) (se n fechar da erro)
         
     def run(self, s):
         s = Parser.filtra(s)
