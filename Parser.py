@@ -3,7 +3,7 @@ class Parser:
     tolk = Tolkenizer()
     tipo_atual = "plus"
     def filtra(linha:str):
-        return linha.split('#')[0]
+        return linha.split('#')[0].strip()
 
 
     def parseExepresion():

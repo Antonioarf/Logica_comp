@@ -12,11 +12,9 @@ class Tolkenizer:
     def selectNext(self):
         ultimo_n= False
         index= self.position
-        while index < len(self.source):    
+        while index < len(self.source): 
             pulo = 0
             while self.source[index]==' ':
-                if  index >= len(self.source): 
-                    break
                 index+=1 
             if self.source[index].isnumeric():
                 
