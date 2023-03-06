@@ -8,8 +8,9 @@ class Parser:
 
     def parseExepresion():
         soma = 0
+        Parser.tolk.selectNext()
         while Parser.tipo_atual != "EOF":
-            Parser.tolk.selectNext()
+            
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido")
             else:
@@ -17,9 +18,9 @@ class Parser:
                     break
 
             if Parser.tipo_atual == 'plus':
-                soma += int(Parser.parseTerm())
+                soma += int(Parser.tolk.next.value)
             elif Parser.tipo_atual == 'minus': 
-                soma -= int(Parser.parseTerm())
+                soma -= int(Parser.tolk.next.value)
 
             Parser.tipo_atual = Parser.tolk.next.type
 
@@ -35,9 +36,7 @@ class Parser:
             
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido")
-            else:
-                if Parser.tipo_atual == "EOF":
-                    break
+
 
             if Parser.tipo_atual == 'times':
                 soma *= int(Parser.tolk.next.value)
