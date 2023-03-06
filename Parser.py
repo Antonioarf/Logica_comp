@@ -23,25 +23,15 @@ class Parser:
 
             Parser.tipo_atual = Parser.tolk.next.type
 
-            print("SOMA:", soma, '!!!!')
         return soma
 
 
     def parseTerm():
         soma = 1
         Parser.tipo_atual= 'times'
-        print('-----------')
-        print(Parser.tipo_atual)
-        print(Parser.tolk.next.type)
-        print('-----------')
-        print('-----------')
-        print('-----------')
 
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
-            print('-----------')
-            print(Parser.tolk.next.value)
-            print(Parser.tolk.next.type)
-            print('-----------')
+
             
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido")
@@ -56,7 +46,6 @@ class Parser:
 
             Parser.tipo_atual = Parser.tolk.next.type
 
-            print("SOMA:", soma, '@@@@')
             Parser.tolk.selectNext()
         return soma
 
