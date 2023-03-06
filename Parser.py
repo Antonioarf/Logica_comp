@@ -36,7 +36,7 @@ class Parser:
         return soma
     def parseFactor():
         Parser.tolk.selectNext()
-        print(Parser.tolk.next.type)
+        # print(Parser.tolk.next.type)
         if Parser.tolk.next.type == 'minus':
             return  - Parser.parseFactor()
         if Parser.tolk.next.type == 'plus':
