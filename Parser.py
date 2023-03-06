@@ -23,6 +23,9 @@ class Parser:
 
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
             Parser.tolk.selectNext()
+            #print(Parser.tolk.next.type, '@@@@@@@@@@@@')
+            #print(soma,'soma','@@@@@@')
+            #print(Parser.tolk.next.value)
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
 
@@ -33,16 +36,21 @@ class Parser:
                 soma //= Parser.parseFactor()
                 
             Parser.tipo_atual = Parser.tolk.next.type
+
         return soma
     def parseFactor():
-        Parser.tolk.selectNext()
-        # print(Parser.tolk.next.type)
+        #print(Parser.tolk.next.type, '!!!!!!!')
         if Parser.tolk.next.type == 'minus':
+            Parser.tolk.selectNext()
             return  - Parser.parseFactor()
         if Parser.tolk.next.type == 'plus':
+            Parser.tolk.selectNext()
             return + Parser.parseFactor()
         if Parser.tolk.next.type == 'int':
+            #print('devolvendo',int(Parser.tolk.next.value))
             return int(Parser.tolk.next.value)
+
+
         #recursivo: if numero retorna numero
         #elif - retorna (-parseFactor)
         #elif + retorna (parseFactor)
