@@ -8,9 +8,9 @@ class Parser:
 
     def parseExepresion():
         soma = Parser.parseTerm()
-        print('soma:@@@@',soma)
+        #print('soma:@@@@',soma)
         while True:
-            print('@@@@@@@@@@@@')
+            #print('@@@@@@@@@@@@')
             
             if Parser.tolk.next.type == 'plus':
                 soma +=  Parser.parseTerm()
@@ -27,7 +27,7 @@ class Parser:
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
             Parser.tolk.selectNext()
 
-            print("teste",Parser.tolk.next.value)
+            #print("teste",Parser.tolk.next.value)
             
             if Parser.tolk.next.type == Parser.tipo_atual:
                 Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
@@ -40,9 +40,9 @@ class Parser:
                 
             Parser.tipo_atual = Parser.tolk.next.type
 
-            print('soma::',soma)
-            print(Parser.tipo_atual)
-        print('!!!!!!!!1',Parser.tolk.next.type)
+            #print('soma::',soma)
+            #print(Parser.tipo_atual)
+        #print('!!!!!!!!1',Parser.tolk.next.type)
         return soma
 
     
