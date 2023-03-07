@@ -17,15 +17,15 @@ class Parser:
             elif (Parser.tolk.next.type == 'EOF')or (Parser.tolk.next.type == 'C_par'):
                 break
 
-            print('soma',soma)
+            #print('soma',soma)
         return soma
 
     def parseTerm():
         prod = 1
         Parser.tipo_atual= 'times'
         while Parser.tipo_atual not in  ["EOF",'plus', 'minus','C_par']: #,'O_par','C_par'
-            print(Parser.tolk.next.value, '@@@@@@')
-            print(Parser.tipo_atual, '@@@@@@')
+            #print(Parser.tolk.next.value, '@@@@@@')
+            #print(Parser.tipo_atual, '@@@@@@')
             Parser.tolk.selectNext()
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
@@ -37,10 +37,10 @@ class Parser:
                 prod //= Parser.parseFactor()
                 
             Parser.tipo_atual = Parser.tolk.next.type
-        print('prod',prod)
+        #print('prod',prod)
         return prod
     def parseFactor():
-        print(Parser.tolk.next.value, '!!!!!!!!!!')
+        #print(Parser.tolk.next.value, '!!!!!!!!!!')
 
         if Parser.tolk.next.type == 'int':
             Parser.tipo_atual= 'int'
@@ -59,8 +59,8 @@ class Parser:
                     Parser.tolk.selectNext()
                     return salva
                 else: 
-                    print(Parser.tolk.next.type)
-                    print('11111111')
+                    #print(Parser.tolk.next.type)
+                    #print('11111111')
             
         
 
