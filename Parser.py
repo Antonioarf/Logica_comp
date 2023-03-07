@@ -58,7 +58,8 @@ class Parser:
                 if Parser.tolk.next.type == 'C_par':
                     Parser.tolk.selectNext()
                     return salva
-                else: 
+                else:
+                    raise Exception("sla") 
                     #print(Parser.tolk.next.type)
                     #print('11111111')
             
