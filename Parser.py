@@ -58,9 +58,9 @@ class Parser:
             return + Parser.parseFactor()
 
         elif  Parser.tolk.next.type == 'O_par':
+                Parser.abriu =True
                 salva = Parser.parseExepresion()
                 if Parser.tolk.next.type == 'C_par':
-                    Parser.abriu =True
                     Parser.tolk.selectNext()
                     return salva
                 else:
