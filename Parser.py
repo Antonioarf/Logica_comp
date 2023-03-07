@@ -14,9 +14,13 @@ class Parser:
                 soma +=  Parser.parseTerm()
             elif Parser.tolk.next.type == 'minus':
                 soma -=  Parser.parseTerm()
-            elif (Parser.tolk.next.type == 'EOF')or (Parser.tolk.next.type == 'C_par'):
+            elif (Parser.tolk.next.type == 'EOF'):
                 break
-
+            elif (Parser.tolk.next.type == 'C_par'):
+                if Parser.abriu:
+                    break
+                else:
+                    raise Exception("sla T2") 
             #print('soma',soma)
         return soma
 
@@ -56,6 +60,7 @@ class Parser:
         elif  Parser.tolk.next.type == 'O_par':
                 salva = Parser.parseExepresion()
                 if Parser.tolk.next.type == 'C_par':
+                    Parser.abriu =True
                     Parser.tolk.selectNext()
                     return salva
                 else:
