@@ -8,28 +8,24 @@ class Parser:
 
 
     def parseExepresion():
-        #print('#######')
-        #print(Parser.tolk.next.type )
-        #print(Parser.tolk.next.value )
-        #print('--------------------')
         soma = Parser.parseTerm()
         while True:            
             if Parser.tolk.next.type == 'plus':
                 soma +=  Parser.parseTerm()
             elif Parser.tolk.next.type == 'minus':
                 soma -=  Parser.parseTerm()
-            elif Parser.tolk.next.type == 'EOF':
+            elif (Parser.tolk.next.type == 'EOF')or (Parser.tolk.next.type == 'C_par'):
                 break
+
+            print('soma',soma)
         return soma
 
     def parseTerm():
-        #print('@@@@@@')
-        #print(Parser.tolk.next.type )
-        #print(Parser.tolk.next.value )
-        #print('--------------------')
         prod = 1
         Parser.tipo_atual= 'times'
-        while Parser.tipo_atual not in  ["EOF",'plus', 'minus']:
+        while Parser.tipo_atual not in  ["EOF",'plus', 'minus','C_par']: #,'O_par','C_par'
+            print(Parser.tolk.next.value, '@@@@@@')
+            print(Parser.tipo_atual, '@@@@@@')
             Parser.tolk.selectNext()
             if Parser.tolk.next.type == Parser.tipo_atual:
                 raise Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
@@ -41,15 +37,13 @@ class Parser:
                 prod //= Parser.parseFactor()
                 
             Parser.tipo_atual = Parser.tolk.next.type
-
+        print('prod',prod)
         return prod
     def parseFactor():
-        #print('!!!!!!!!!')
-        #print(Parser.tolk.next.type )
-        #print(Parser.tolk.next.value )
-        #print('--------------------')
-        
+        print(Parser.tolk.next.value, '!!!!!!!!!!')
+
         if Parser.tolk.next.type == 'int':
+            Parser.tipo_atual= 'int'
             return int(Parser.tolk.next.value)
 
         elif Parser.tolk.next.type == 'minus':
@@ -59,18 +53,16 @@ class Parser:
             Parser.tolk.selectNext()
             return + Parser.parseFactor()
 
-        elif Parser.tolk.next.type == 'O_par':
-            #print('ABRIUUUUUUUUUU')
-            Parser.tolk.selectNext()
-            Parser.abriu = True
-            salva =  Parser.parseExepresion()
-            return salva
-        elif Parser.tolk.next.type == 'C_par':
-            #print('FECHOUUUUUUUUUUUUu')
-            if Parser.abriu:
-                return 1
-            else:
-                raise Exception("FECHOU SEM ABRIR!!!!: ")
+        elif  Parser.tolk.next.type == 'O_par':
+                salva = Parser.parseExepresion()
+                if Parser.tolk.next.type == 'C_par':
+                    Parser.tolk.selectNext()
+                    return salva
+                else: 
+                    print(Parser.tolk.next.type)
+                    print('11111111')
+            
+        
 
         #recursivo: if numero retorna numero
         #elif - retorna (-parseFactor)
