@@ -9,7 +9,7 @@ class Node:
 
 class UnOp(Node):
     def evaluate(self):
-        print('Unop',self.value)
+        #print('Unop',self.value, [type(x)for x in self.filhos])
         if self.value == 'minus': 
             return - self.filhos[0].evaluate()
         else:
@@ -17,7 +17,7 @@ class UnOp(Node):
 
 class Binop(Node):
     def evaluate(self):
-        print('Biop',self.value)
+        #print('Biop',self.value, [type(x)for x in self.filhos])
         if self.value == 'minus': 
             return self.filhos[0].evaluate() - self.filhos[1].evaluate()
         elif self.value == 'plus':
@@ -28,7 +28,7 @@ class Binop(Node):
             return self.filhos[0].evaluate() // self.filhos[1].evaluate()
 class Intvar(Node):
     def evaluate(self):
-        print('Intvar',self.value)
+        #print('Intvar',self.value, [type(x)for x in self.filhos])
         return int(self.value)
 
 class NoOp(Node):
