@@ -21,9 +21,11 @@ class Parser:
                 filho2 =Parser.parseTerm()
                 atual  =Binop (tipo,[filho1,filho2])
 
-            elif (Parser.tolk.next.type == 'EOF') or (Parser.tolk.next.type == 'C_par'):
+            elif (Parser.tolk.next.type == 'EOF') or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
                 atual=filho1
                 break     
+            else:
+                    raise Exception(Parser.tolk.next.type,Parser.tolk.next.value)
             filho1 = atual
         return atual
 
