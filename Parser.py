@@ -9,8 +9,7 @@ class Parser:
     def leitura(nome:str):
         with open(nome) as f:
             contents = f.read()
-            print(contents)
-            return contents
+        return contents
 
 
     def parseExepresion():
