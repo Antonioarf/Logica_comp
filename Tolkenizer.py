@@ -1,13 +1,9 @@
-class Token:
-    def __init__(self,v,t):
-        self.type = t
-        self.value=v
-
+from tolkens import *
 class Tolkenizer:
     def cria(self,s):
         self.source= s 
         self.position= 0
-        self.next = Token('','times') 
+        self.next = Token('','plus') 
 
     def selectNext(self):
         ultimo_n= False

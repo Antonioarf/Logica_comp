@@ -1,81 +1,83 @@
 from Tolkenizer import *
 class Parser:
     tolk = Tolkenizer()
-    tipo_atual = "plus"
     abriu = False
     def filtra(linha:str):
         return linha.split('#')[0].strip()
 
-
+#parenteses
+#leitura de arquivo
     def parseExepresion():
-        soma = Parser.parseTerm()
-        while True:            
+            filho1 = Parser.parseTerm()
+        
             if Parser.tolk.next.type == 'plus':
-                soma +=  Parser.parseTerm()
+                valor_ex = 'plus'
+                Parser.tolk.selectNext()
+                filho2 =  Parser.parseTerm()
             elif Parser.tolk.next.type == 'minus':
-                soma -=  Parser.parseTerm()
+                Parser.tolk.selectNext()
+                valor_ex = 'minus'
+                filho2 = Parser.parseTerm()
             elif (Parser.tolk.next.type == 'EOF'):
-                break
+                return Binop('plus',[filho1,Intvar(0,[])])
             elif (Parser.tolk.next.type == 'C_par'):
-                if Parser.abriu:
-                    break
-                else:
-                    raise Exception("sla T2") 
-            #print('soma',soma)
-        return soma
+                if not Parser.abriu:
+                    raise Exception("NAO ABRIU") 
+            else:
+                    raise Exception("SLA",Parser.tolk.next.type,Parser.tolk.next.value)
+            return Binop(valor_ex,[filho1,filho2])
 
-    def parseTerm():
-        prod = 1
-        Parser.tipo_atual= 'times'
-        while Parser.tipo_atual not in  ["EOF",'plus', 'minus','C_par']: #,'O_par','C_par'
-            #print(Parser.tolk.next.value, '@@@@@@')
-            #print(Parser.tipo_atual, '@@@@@@')
-            Parser.tolk.selectNext()
-            if Parser.tolk.next.type == Parser.tipo_atual:
-                raise Exception("Tipo repetido!!!!: {}".format(Parser.tipo_atual))
+    def parseTerm():       
+            filho1 = Parser.parseFactor()            
+            if Parser.tolk.next.type == 'times':
+                Parser.tolk.selectNext()
+                valor_term = 'times'
+                filho2 =  Parser.parseFactor()
+            elif Parser.tolk.next.type == 'div':
+                Parser.tolk.selectNext()
+                valor_term = 'div'
+                filho2= Parser.parseFactor()
+            elif Parser.tolk.next.type =="EOF":
+                return filho1
+            elif (Parser.tolk.next.type in ['plus', 'minus']):
+                return Binop(Parser.tolk.next.type,[filho1,Parser.parseExepresion()])
+            elif (Parser.tolk.next.type == 'C_par'):
+                if not Parser.abriu:
+                    raise Exception("NAO ABRIU") 
+            else:
+                raise Exception("SLA2",Parser.tolk.next.type,Parser.tolk.next.value) 
+            
 
 
-            if Parser.tipo_atual == 'times':
-                prod *= Parser.parseFactor() #passa a ser Parser.parseFactor
-            elif Parser.tipo_atual == 'div': 
-                prod //= Parser.parseFactor()
-                
-            Parser.tipo_atual = Parser.tolk.next.type
-        #print('prod',prod)
-        return prod
+
+
     def parseFactor():
-        #print(Parser.tolk.next.value, '!!!!!!!!!!')
-
+        
         if Parser.tolk.next.type == 'int':
-            Parser.tipo_atual= 'int'
-            return int(Parser.tolk.next.value)
+            s = int(Parser.tolk.next.value)
+            Parser.tolk.selectNext()
+            return Intvar(s,[])
 
         elif Parser.tolk.next.type == 'minus':
             Parser.tolk.selectNext()
-            return  - Parser.parseFactor()
+            return UnOp("minus", [Parser.parseFactor()])
         elif Parser.tolk.next.type == 'plus':
             Parser.tolk.selectNext()
-            return + Parser.parseFactor()
+            return UnOp("plus", [Parser.parseFactor()])
 
         elif  Parser.tolk.next.type == 'O_par':
                 Parser.abriu =True
+                Parser.tolk.selectNext()
                 salva = Parser.parseExepresion()
+                # Parser.tolk.selectNext()
                 if Parser.tolk.next.type == 'C_par':
                     Parser.tolk.selectNext()
                     return salva
                 else:
-                    raise Exception("sla") 
-                    #print(Parser.tolk.next.type)
-                    #print('11111111')
-            
-        
+                    raise Exception("NAO FECHOU") 
+        else:
+                raise Exception("SLA3",Parser.tolk.next.type,Parser.tolk.next.value)
 
-        #recursivo: if numero retorna numero
-        #elif - retorna (-parseFactor)
-        #elif + retorna (parseFactor)
-        #fazer recursao tipo rashi e ai o ultimo elif
-        #elif () chama o parseExpression return depois de tirar o ) (se n fechar da erro)
-        
     def run(self, s):
         s = Parser.filtra(s)
         Parser.tolk.cria(s)
