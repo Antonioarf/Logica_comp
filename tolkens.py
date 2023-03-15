@@ -13,7 +13,7 @@ class UnOp(Node):
         #print('Unop',self.value, [type(x)for x in self.filhos])
         if self.value == 'minus': 
             return - self.filhos[0].evaluate()
-        else:
+        elif self.value == 'plus':
             return self.filhos[0].evaluate()
 
 class Binop(Node):

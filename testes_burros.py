@@ -14,44 +14,29 @@ class Parser:
 
     def parseExepresion():
         filho1 = Parser.parseTerm()
-        while True:   
-            
-            if Parser.tolk.next.type == 'plus':
+        while True:          
+            if (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'minus'):
+                tipo = Parser.tolk.next.type
+                Parser.tolk.selectNext() 
                 filho2 =Parser.parseTerm()
-                atual  =Binop('plus',[filho1,filho2])
-
-            elif Parser.tolk.next.type == 'minus':
-                filho2 =Parser.parseTerm()
-                atual  =Binop('minus',[filho1,filho2])
-            elif (Parser.tolk.next.type == 'EOF'):
+                atual  =Binop (tipo,[filho1,filho2])
+   
+            elif (Parser.tolk.next.type == 'EOF') or (Parser.tolk.next.type == 'C_par'):
                 atual=filho1
                 break
-            elif (Parser.tolk.next.type == 'C_par'):
-                if Parser.abriu:
-                    atual=filho1
-                    return atual
-                else:
-                    raise Exception("sla T2") 
-            print("SLA0",Parser.tolk.next.type,Parser.tolk.next.value)
             filho1 = atual
         return atual
 
     def parseTerm():
-        Parser.tolk.selectNext()
+        
         filho1 = Parser.parseFactor()
-        print('$$$$$$$$$$$$$$$$$')
-
         while True:
             Parser.tolk.selectNext()
-            if Parser.tolk.next.type == 'times':
+            if (Parser.tolk.next.type == 'div') or (Parser.tolk.next.type == 'times'):
+                tipo = Parser.tolk.next.type
                 Parser.tolk.selectNext() 
-                filho2 =Parser.parseFactor()
-                atual  =Binop('times',[filho1,filho2])
-            elif Parser.tolk.next.type == 'div': 
-                Parser.tolk.selectNext() 
-                filho2 =Parser.parseFactor()
-                atual  =Binop('div',[filho1,filho2])
-            #elif Parser.tolk.next.type  in  ["EOF",'plus', 'minus','C_par']:
+                filho2 =Parser.parseTerm()
+                atual  =Binop (tipo,[filho1,filho2])        
             else:
                 atual = filho1
                 break
@@ -73,15 +58,13 @@ class Parser:
             return UnOp("plus", [Parser.parseFactor()])
         elif  Parser.tolk.next.type == 'O_par':
                 Parser.abriu =True
+                
+                Parser.tolk.selectNext()
                 salva = Parser.parseExepresion()
-                if Parser.tolk.next.type == 'C_par':
-                    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-                    Parser.tolk.selectNext()
+                if (Parser.tolk.next.type == 'C_par'):
                     return salva
                 else:
-                    raise Exception("sla") 
-                    #print(Parser.tolk.next.type)
-                    #print('11111111')
+                    raise Exception("s",Parser.tolk.next.type,Parser.tolk.next.value)
         else:
             raise Exception("SLA2",Parser.tolk.next.type,Parser.tolk.next.value)
 
