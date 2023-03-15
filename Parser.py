@@ -19,10 +19,12 @@ class Parser:
         while True:   
             
             if Parser.tolk.next.type == 'plus':
+                Parser.tolk.selectNext() 
                 filho2 =Parser.parseTerm()
                 atual  =Binop('plus',[filho1,filho2])
 
             elif Parser.tolk.next.type == 'minus':
+                Parser.tolk.selectNext() 
                 filho2 =Parser.parseTerm()
                 atual  =Binop('minus',[filho1,filho2])
             elif (Parser.tolk.next.type == 'EOF'):
