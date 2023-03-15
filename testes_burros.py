@@ -29,7 +29,6 @@ class Parser:
             elif (Parser.tolk.next.type == 'C_par'):
                 if Parser.abriu:
                     atual=filho1
-                    print("1111111111111111111111111111111")
                     return atual
                 else:
                     raise Exception("sla T2") 

@@ -14,7 +14,8 @@ class Parser:
 
     def parseExepresion():
         filho1 = Parser.parseTerm()
-        #print(filho1)
+        #print('filho1', type(filho1))
+        ##print(filho1)
         while True:   
             
             if Parser.tolk.next.type == 'plus':
@@ -31,18 +32,23 @@ class Parser:
                 if Parser.abriu:
                     atual=filho1
                     return atual
-                else:
-                    raise Exception("sla T2") 
-            elif (Parser.tolk.next.type == 'O_par'):
-                filho2 = Parser.parseTerm()
-                atual  =Binop('plus',[filho1,filho2])
+            elif  Parser.tolk.next.type == 'O_par':
+                Parser.abriu =True
+                salva = Parser.parseExepresion()
+                if (Parser.tolk.next.type == 'C_par')or (Parser.tolk.next.type == 'EOF'):
+                    Parser.tolk.selectNext()
+                    return salva
+            else:
+                    raise Exception("sla T2",Parser.tolk.next.type,Parser.tolk.next.value)
+
+            
             filho1 = atual
         return atual
 
     def parseTerm():
-        Parser.tolk.selectNext()
+        
         filho1 = Parser.parseFactor()
-
+        #print('filho2', type(filho1))
         while True:
             Parser.tolk.selectNext()
             if Parser.tolk.next.type == 'times':
@@ -54,7 +60,12 @@ class Parser:
                 filho2 =Parser.parseFactor()
                 atual  =Binop('div',[filho1,filho2])
             #elif Parser.tolk.next.type  in  ["EOF",'plus', 'minus','C_par']:
-
+            elif (Parser.tolk.next.type == 'C_par'):
+                if Parser.abriu:
+                    atual=filho1
+                    return atual
+                else:
+                    raise Exception("sla T2")
             else:
                 atual = filho1
                 break
@@ -76,15 +87,15 @@ class Parser:
             return UnOp("plus", [Parser.parseFactor()])
         elif  Parser.tolk.next.type == 'O_par':
                 Parser.abriu =True
+                
+                Parser.tolk.selectNext()
                 salva = Parser.parseExepresion()
                 if (Parser.tolk.next.type == 'C_par'):
-                    Parser.tolk.selectNext()
-                    return salva
-                elif  (Parser.tolk.next.type == 'EOF'):
                     return salva
                 else:
                     raise Exception("s",Parser.tolk.next.type,Parser.tolk.next.value)
-
+        elif  Parser.tolk.next.type == 'EOF':
+            return
 
         else:
             raise Exception("SLA2",Parser.tolk.next.type,Parser.tolk.next.value)
