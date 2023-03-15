@@ -14,6 +14,7 @@ class Parser:
 
     def parseExepresion():
         filho1 = Parser.parseTerm()
+        #print(filho1)
         while True:   
             
             if Parser.tolk.next.type == 'plus':
@@ -29,16 +30,19 @@ class Parser:
             elif (Parser.tolk.next.type == 'C_par'):
                 if Parser.abriu:
                     atual=filho1
-                    break
+                    return atual
                 else:
                     raise Exception("sla T2") 
-            
+            elif (Parser.tolk.next.type == 'O_par'):
+                filho2 = Parser.parseTerm()
+                atual  =Binop('plus',[filho1,filho2])
             filho1 = atual
         return atual
 
     def parseTerm():
         Parser.tolk.selectNext()
         filho1 = Parser.parseFactor()
+
         while True:
             Parser.tolk.selectNext()
             if Parser.tolk.next.type == 'times':
@@ -49,7 +53,9 @@ class Parser:
                 Parser.tolk.selectNext() 
                 filho2 =Parser.parseFactor()
                 atual  =Binop('div',[filho1,filho2])
-            elif Parser.tolk.next.type  in  ["EOF",'plus', 'minus','C_par']:
+            #elif Parser.tolk.next.type  in  ["EOF",'plus', 'minus','C_par']:
+
+            else:
                 atual = filho1
                 break
             Parser.tipo_atual = Parser.tolk.next.type
@@ -71,11 +77,15 @@ class Parser:
         elif  Parser.tolk.next.type == 'O_par':
                 Parser.abriu =True
                 salva = Parser.parseExepresion()
-                if Parser.tolk.next.type == 'C_par':
+                if (Parser.tolk.next.type == 'C_par'):
                     Parser.tolk.selectNext()
                     return salva
+                elif  (Parser.tolk.next.type == 'EOF'):
+                    return salva
                 else:
-                    raise Exception("sla") 
+                    raise Exception("s",Parser.tolk.next.type,Parser.tolk.next.value)
+
+
         else:
             raise Exception("SLA2",Parser.tolk.next.type,Parser.tolk.next.value)
 
@@ -88,4 +98,3 @@ class Parser:
         l = Parser.filtra(ss)
         Parser.tolk.cria(l)
         return Parser.parseExepresion()
-

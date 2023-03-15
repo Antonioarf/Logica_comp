@@ -1,5 +1,6 @@
 class Token:
     def __init__(self,v,t):
+        #print('criou',v,t)
         self.type = t
         self.value=v
 class Node:
