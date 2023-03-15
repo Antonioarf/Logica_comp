@@ -3,7 +3,7 @@ from Parser import Parser
 
 arq = argv[1]
 # arq = " ".join(argv)
+print(arq)
 roda = Parser()
-programa = roda.leitura(arq)
-resul = roda.run(programa)
+resul = roda.run(arq)
 print(resul.evaluate())

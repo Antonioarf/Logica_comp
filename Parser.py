@@ -85,7 +85,8 @@ class Parser:
 
         
     def run(self, s):
-        s = Parser.filtra(s)
-        Parser.tolk.cria(s)
+        ss = Parser.leitura(s)
+        l = Parser.filtra(ss)
+        Parser.tolk.cria(l)
         return Parser.parseExepresion()
 
