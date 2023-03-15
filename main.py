@@ -1,10 +1,9 @@
 from sys import argv
 from Parser import Parser
 
-argv.pop(0)
-programa = " ".join(argv)
+arq = argv[1]
+# arq = " ".join(argv)
 roda = Parser()
+programa = roda.leitura(arq)
 resul = roda.run(programa)
-print(resul)
-#print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 print(resul.evaluate())

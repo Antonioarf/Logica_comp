@@ -6,6 +6,12 @@ class Parser:
     def filtra(linha:str):
         return linha.split('#')[0].strip()
 
+    def leitura(nome:str):
+        with open(nome) as f:
+            contents = f.read()
+            print(contents)
+            return contents
+
 
     def parseExepresion():
         filho1 = Parser.parseTerm()
