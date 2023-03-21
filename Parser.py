@@ -5,15 +5,13 @@ from Tolkenizer import *
 class Parser:
     tolk = Tolkenizer()
     abriu = False
-
+    
     def filtra(linha:str):
         return linha.split('#')[0].strip()
 
     def leitura(nome:str):
-        contents=''
         with open(nome) as f:
-            for line in f:
-                contents += Parser.filtra(line)
+            contents = f.read()
         #print(contents)
         #print('--------------------------------------')
         return contents
@@ -104,5 +102,6 @@ class Parser:
         
     def run(self, s):
         ss = Parser.leitura(s)
-        Parser.tolk.cria(ss)
+        l = Parser.filtra(ss)
+        Parser.tolk.cria(l)
         return Parser.parseBlock()
