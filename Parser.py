@@ -1,19 +1,19 @@
 from Tolkenizer import *
-
+import re
 # PARSE BLOCK => while not EOF roda o STATMEMNT
 # PARSE STATMEMNT if entre print, atribuicao e nada
 class Parser:
     tolk = Tolkenizer()
     abriu = False
-    
     def filtra(linha:str):
         return linha.split('#')[0].strip()
 
     def leitura(nome:str):
         with open(nome) as f:
-            contents = f.read()
-        #print(contents)
-        #print('--------------------------------------')
+            contents=''
+            for line in f:
+                contents += Parser.filtra(line)
+
         return contents
 
     def parseBlock():
@@ -41,7 +41,7 @@ class Parser:
             return Println('',[filho])
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
-
+            
     def parseExepresion():
         filho1 = Parser.parseTerm()
         while True:   
