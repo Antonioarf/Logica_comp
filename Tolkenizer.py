@@ -22,7 +22,7 @@ class Tolkenizer:
                 self.next = Token(numero,'int')
 
             elif self.source[index].isalpha():    
-                while self.source[index+pulo].isalnum():
+                while (self.source[index+pulo].isalnum())or (self.source[index+pulo] =='_'):
                     pulo+=1
                     if index+pulo>= len(self.source): break
                 nome = self.source[index:index+pulo]
