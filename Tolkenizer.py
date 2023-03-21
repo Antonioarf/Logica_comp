@@ -1,25 +1,45 @@
 from tolkens import *
+
 class Tolkenizer:
     def cria(self,s):
         self.source= s 
         self.position= 0
-        self.next = Token('','plus') 
+        self.next:Token
 
     def selectNext(self):
         ultimo_n= False
         index= self.position
+        reservadas = ['println']
         while index < len(self.source): 
             pulo = 0
             while self.source[index]==' ':
                 index+=1 
-            if self.source[index].isnumeric():
-                
+            if self.source[index].isnumeric():    
                 while self.source[index+pulo].isnumeric():
                     pulo+=1
                     if index+pulo>= len(self.source): break
                 numero = self.source[index:index+pulo]
                 self.next = Token(numero,'int')
 
+            elif self.source[index].isalpha():    
+                while self.source[index+pulo].isalnum():
+                    pulo+=1
+                    if index+pulo>= len(self.source): break
+                nome = self.source[index:index+pulo]
+                if nome not in reservadas:
+                    self.next = Token(nome,'var')
+                elif nome == 'println':
+                    self.next = Token('print','print')
+            
+            
+            elif ord(self.source[index]) ==10:
+                self.next = Token('break','break')
+                ultimo_n=False
+                pulo+=1
+            elif self.source[index] =='=':
+                self.next = Token('sinal','igual')
+                ultimo_n=False
+                pulo+=1
             elif self.source[index] =='+':
                 self.next = Token('sinal','plus')
                 ultimo_n=False

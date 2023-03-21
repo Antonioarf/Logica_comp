@@ -1,3 +1,18 @@
+class SymbolClass:
+
+    def __init__(self):
+        ## private varibale or property in Python
+        self.tabela={}
+
+    def getter(self, valor):
+        if valor in self.tabela.keys():
+            return self.tabela[valor]
+        else:
+            raise('Chave invalida')
+    def setter(self, chave, valor):
+        self.tabela[chave] = valor
+
+tabela = SymbolClass()
 class Token:
     def __init__(self,v,t):
         #print('criou',v,t)
@@ -35,11 +50,31 @@ class Intvar(Node):
 class NoOp(Node):
     def evaluate(self):
         pass
-# Binop
-# UnOp
-# Intvar
-# NoOp
-# .
-# .
-# .
 
+
+class Identifier(Node): 
+    # value=nome da variavel
+    # 0 filhos
+    def evaluate(self):
+        #print('ident-getter',self.value, [type(x)for x in self.filhos])
+        return tabela.getter(self.value)
+
+class Println(Node):
+    #valor = nada
+    #filho= parseexpression 
+    def evaluate(self):
+        print (self.filhos[0].evaluate())
+
+class Assigment(Node):
+    #2 filhos:
+    #esquerda= Identifier pra criar
+    #direita= expression do valor
+    def evaluate(self):
+        tabela.setter(self.filhos[0].value,self.filhos[1].evaluate())
+
+class Block(Node):
+    #criado na funcao raiz BLOCK
+    #um filho pra cada linha => append de filho
+    def evaluate(self):
+        for filho in self.filhos:
+            filho.evaluate()
