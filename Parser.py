@@ -12,7 +12,7 @@ class Parser:
         with open(nome) as f:
             contents=''
             for line in f:
-                contents += Parser.filtra(line)
+                contents += Parser.filtra(line)+'\n'
 
         return contents
 
