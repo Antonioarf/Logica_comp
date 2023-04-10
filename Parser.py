@@ -38,21 +38,40 @@ class Parser:
             filho = Parser.parseFactor()
             Parser.tolk.selectNext()
             return Println('',[filho])
+        
         elif Parser.tolk.next.type == 'if':
             Parser.tolk.selectNext()
-            filho1 = Parser.parseRelExpr()
+            condicao = Parser.parseRelExpr()
+            print(condicao.filhos, condicao.value)
+            Parser.tolk.selectNext()
+            filhos = []
+            while (Parser.tolk.next.type != 'end' )or (Parser.tolk.next.type != 'else'):
+                filhos.append(Parser.parseStatment())
+                Parser.tolk.selectNext()
+            filho1= Block('',filhos)
+            if Parser.tolk.next.type == 'else':
+                Parser.tolk.selectNext()
+                filhos = []
+                while Parser.tolk.next.type != 'end':
+                    print('2222222222222222')
+                    filhos.append(Parser.parseStatment())
+                    Parser.tolk.selectNext()
+                filho2= Block('',filhos)
+                return IfOp('',[condicao,filho1,filho2])
+            else:
+                return IfOp('',[condicao,filho1])
+        elif Parser.tolk.next.type == 'while':
+            Parser.tolk.selectNext()
+            condicao = Parser.parseRelExpr()
             Parser.tolk.selectNext()
             filhos = []
             while Parser.tolk.next.type != 'end':
+                print('333333333333333333')
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
-            filho2= Block('',filhos)
-            if Parser.tolk.next.type == 'else':
-                Parser.tolk.selectNext()
-                filho3 = Parser.parseBlock()
-                return IfOp('',[filho1,filho2,filho3])
-            else:
-                return IfOp('',[filho1,filho2])
+            filho1= Block('',filhos)
+            return WhileOp('',[condicao,filho1])    
+        
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
     

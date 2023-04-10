@@ -37,6 +37,7 @@ class Tolkenizer:
                 elif nome == 'while':
                     self.next = Token('while','while')
                 elif nome == 'end':
+                    print('aaaaaaaaaaaaaaaaaaaa')
                     self.next = Token('end','end')
             
             
