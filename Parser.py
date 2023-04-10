@@ -38,6 +38,21 @@ class Parser:
             filho = Parser.parseFactor()
             Parser.tolk.selectNext()
             return Println('',[filho])
+        elif Parser.tolk.next.type == 'if':
+            Parser.tolk.selectNext()
+            filho1 = Parser.parseRelExpr()
+            Parser.tolk.selectNext()
+            filhos = []
+            while Parser.tolk.next.type != 'end':
+                filhos.append(Parser.parseStatment())
+                Parser.tolk.selectNext()
+            filho2= Block('',filhos)
+            if Parser.tolk.next.type == 'else':
+                Parser.tolk.selectNext()
+                filho3 = Parser.parseBlock()
+                return IfOp('',[filho1,filho2,filho3])
+            else:
+                return IfOp('',[filho1,filho2])
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
     
@@ -52,7 +67,7 @@ class Parser:
                 filho2 =Parser.parseExepresion()
                 atual  =Binop (tipo,[filho1,filho2])
 
-            elif (Parser.tolk.next.type in ['EOF','break']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
+            elif (Parser.tolk.next.type in ['EOF','break','end']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
                 atual=filho1
                 break     
             else:
@@ -101,6 +116,14 @@ class Parser:
             tipo = Parser.tolk.next.type
             Parser.tolk.selectNext()
             return UnOp(tipo, [Parser.parseFactor()])
+        elif Parser.tolk.next.type == 'read':
+            Parser.tolk.selectNext()
+            if  Parser.tolk.next.type == 'O_par':
+                Parser.tolk.selectNext()
+                if (Parser.tolk.next.type == 'C_par'):
+                    return Readln('',[])
+                else:
+                    raise Exception("s",Parser.tolk.next.type,Parser.tolk.next.value)
         elif  Parser.tolk.next.type == 'O_par':
                 Parser.abriu =True
                 Parser.tolk.selectNext()

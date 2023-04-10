@@ -23,6 +23,11 @@ class Node:
         self.value = v
         self.filhos: [Node]= filhos
 
+class Readln(Node):
+    def evaluate(self):
+         return int(input())
+
+
 class UnOp(Node):
     def evaluate(self):
         #print('Unop',self.value, [type(x)for x in self.filhos])
@@ -54,7 +59,19 @@ class Binop(Node):
             return self.filhos[0].evaluate() < self.filhos[1].evaluate()
         elif self.value == 'maior':
             return self.filhos[0].evaluate() > self.filhos[1].evaluate()
-        
+class IfOp(Node):
+    def evaluate(self):
+        #print('If',self.value, [type(x)for x in self.filhos])
+        if self.filhos[0].evaluate():
+            self.filhos[1].evaluate()
+        elif len(self.filhos) == 3:
+            self.filhos[2].evaluate()
+class WhileOp(Node):
+    def evaluate(self):
+        #print('While',self.value, [type(x)for x in self.filhos])
+        while self.filhos[0].evaluate():
+            self.filhos[1].evaluate()
+            
 class Intvar(Node):
     def evaluate(self):
         #print('Intvar',self.value, [type(x)for x in self.filhos])
