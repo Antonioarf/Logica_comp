@@ -36,7 +36,6 @@ class Parser:
         elif Parser.tolk.next.type == 'print':
             Parser.tolk.selectNext()
             filho = Parser.parseFactor()
-            Parser.tolk.selectNext()
             return Println('',[filho])
         
         elif Parser.tolk.next.type == 'if':
@@ -71,6 +70,7 @@ class Parser:
         
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
+        
         elif Parser.tolk.next.type == 'end' or Parser.tolk.next.type == 'else':
             raise Exception("tinha q ter entrado no if ou while")
     
@@ -85,7 +85,7 @@ class Parser:
                 filho2 =Parser.parseExepresion()
                 atual  =Binop (tipo,[filho1,filho2])
 
-            elif (Parser.tolk.next.type in ['EOF','break','end']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
+            elif (Parser.tolk.next.type in ['EOF','break']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
                 atual=filho1
                 break     
             else:
