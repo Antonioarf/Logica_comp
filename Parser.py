@@ -71,6 +71,8 @@ class Parser:
         
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
+        elif Parser.tolk.next.type == 'end' or Parser.tolk.next.type == 'else':
+            raise Exception("tinha q ter entrado no if ou while")
     
     
     def parseRelExpr():
