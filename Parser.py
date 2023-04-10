@@ -1,7 +1,6 @@
 from Tolkenizer import *
 import re
-# PARSE BLOCK => while not EOF roda o STATMEMNT
-# PARSE STATMEMNT if entre print, atribuicao e nada
+
 class Parser:
     tolk = Tolkenizer()
     abriu = False
@@ -30,7 +29,7 @@ class Parser:
             Parser.tolk.selectNext()
             if Parser.tolk.next.type == 'igual':
                 Parser.tolk.selectNext()
-                filho = Parser.parseExepresion()
+                filho = Parser.parseRelExpr()
                 return Assigment('',[Identifier(valor,[]),filho])
             else:
                 raise ('VAR SEM IGUAL DEPOIS')
@@ -41,15 +40,16 @@ class Parser:
             return Println('',[filho])
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
-            
-    def parseExepresion():
-        filho1 = Parser.parseTerm()
+    
+    
+    def parseRelExpr():
+        filho1 = Parser.parseExepresion()
         while True:   
             
-            if (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'minus'):
+            if (Parser.tolk.next.type == 'comp') or (Parser.tolk.next.type == 'maior') or (Parser.tolk.next.type == 'menor'):
                 tipo = Parser.tolk.next.type
                 Parser.tolk.selectNext() 
-                filho2 =Parser.parseTerm()
+                filho2 =Parser.parseExepresion()
                 atual  =Binop (tipo,[filho1,filho2])
 
             elif (Parser.tolk.next.type in ['EOF','break']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
@@ -59,12 +59,28 @@ class Parser:
                     raise Exception(Parser.tolk.next.type,Parser.tolk.next.value)
             filho1 = atual
         return atual
+        
+    def parseExepresion():
+        filho1 = Parser.parseTerm()
+        while True:   
+            if (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'minus') or (Parser.tolk.next.type == 'or'):
+                tipo = Parser.tolk.next.type
+                Parser.tolk.selectNext() 
+                filho2 =Parser.parseTerm()
+                atual  =Binop (tipo,[filho1,filho2])
+
+            else:
+                atual = filho1
+                break
+            filho1 = atual
+            filho1 = atual
+        return atual
 
     def parseTerm():
         filho1 = Parser.parseFactor()
         while True:
             Parser.tolk.selectNext()
-            if (Parser.tolk.next.type == 'div') or (Parser.tolk.next.type == 'times'):
+            if (Parser.tolk.next.type == 'div') or (Parser.tolk.next.type == 'times') or (Parser.tolk.next.type == 'and'):
                 tipo = Parser.tolk.next.type
                 Parser.tolk.selectNext() 
                 filho2 =Parser.parseFactor()
@@ -76,20 +92,19 @@ class Parser:
         return atual
 
     def parseFactor():
-
         if Parser.tolk.next.type == 'int':
             return Intvar(int(Parser.tolk.next.value),[])
         elif Parser.tolk.next.type == 'var':
             return Identifier(Parser.tolk.next.value,[])
 
-        elif (Parser.tolk.next.type == 'minus') or (Parser.tolk.next.type == 'plus'):
+        elif (Parser.tolk.next.type == 'minus') or (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'not'):
             tipo = Parser.tolk.next.type
             Parser.tolk.selectNext()
             return UnOp(tipo, [Parser.parseFactor()])
         elif  Parser.tolk.next.type == 'O_par':
                 Parser.abriu =True
                 Parser.tolk.selectNext()
-                salva = Parser.parseExepresion()
+                salva = Parser.parseRelExpr()
                 if (Parser.tolk.next.type == 'C_par'):
                     return salva
                 else:
@@ -97,8 +112,6 @@ class Parser:
 
 
             
-        
-
         
     def run(self, s):
         ss = Parser.leitura(s)

@@ -30,6 +30,8 @@ class UnOp(Node):
             return - self.filhos[0].evaluate()
         elif self.value == 'plus':
             return self.filhos[0].evaluate()
+        elif self.value == 'not':
+            return not self.filhos[0].evaluate()
 
 class Binop(Node):
     def evaluate(self):
@@ -42,6 +44,17 @@ class Binop(Node):
             return self.filhos[0].evaluate() * self.filhos[1].evaluate()
         elif self.value == 'div':
             return self.filhos[0].evaluate() // self.filhos[1].evaluate()
+        elif self.value == 'and':
+            return self.filhos[0].evaluate() and self.filhos[1].evaluate()
+        elif self.value == 'or':
+            return self.filhos[0].evaluate() or self.filhos[1].evaluate()
+        elif self.value == 'comp':
+            return self.filhos[0].evaluate() == self.filhos[1].evaluate()
+        elif self.value == 'menor':
+            return self.filhos[0].evaluate() < self.filhos[1].evaluate()
+        elif self.value == 'maior':
+            return self.filhos[0].evaluate() > self.filhos[1].evaluate()
+        
 class Intvar(Node):
     def evaluate(self):
         #print('Intvar',self.value, [type(x)for x in self.filhos])

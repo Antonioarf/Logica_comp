@@ -36,6 +36,34 @@ class Tolkenizer:
                 self.next = Token('break','break')
                 ultimo_n=False
                 pulo+=1
+
+            elif self.source[index:(index+2)] =='==' :
+                self.next = Token('rel','comp')
+                ultimo_n=False
+                pulo+=2
+            elif self.source[index] =='<':
+                self.next = Token('rel','menor')
+                ultimo_n=False
+                pulo+=1
+            elif self.source[index] =='>':
+                self.next = Token('rel','maior')
+                ultimo_n=False
+                pulo+=1
+            
+            elif self.source[index:(index+2)] =='&&':
+                self.next = Token('log','and')
+                ultimo_n=False
+                pulo+=2
+            elif self.source[index:(index+2)] =='||':
+                self.next = Token('log','or')
+                ultimo_n=False
+                pulo+=2
+            elif self.source[index] =='!':
+                self.next = Token('log','not')
+                ultimo_n=False
+                pulo+=1
+
+            
             elif self.source[index] =='=':
                 self.next = Token('sinal','igual')
                 ultimo_n=False
