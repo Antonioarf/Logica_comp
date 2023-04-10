@@ -48,7 +48,6 @@ class Parser:
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
             filho1= Block('',filhos)
-            Parser.tolk.selectNext()
             if Parser.tolk.next.type == 'else':
                 Parser.tolk.selectNext()
                 filhos = []

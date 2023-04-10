@@ -38,6 +38,8 @@ class Tolkenizer:
                     self.next = Token('while','while')
                 elif nome == 'end':
                     self.next = Token('end','end')
+                elif nome == 'else':
+                    self.next = Token('else','else')
             
             
             elif ord(self.source[index]) ==10:
