@@ -1,5 +1,8 @@
 x::Int
-y::Int 
+y::Int
 z::String = "x: "
 x = 1
-println(0 . x)
+y = 2
+println(x + y)
+println(z . x)
+println(x + z) # ERROR

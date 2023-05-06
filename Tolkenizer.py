@@ -86,7 +86,7 @@ class Tolkenizer:
                 raise Exception("Invalid Char", self.source[index])
             index+=pulo
             self.position = index
-            print(self.next.type, self.next.value)
+            # print(self.next.type, self.next.value)
             return self.next
 
         self.next = Token('teste','EOF')

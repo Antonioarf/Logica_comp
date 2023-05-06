@@ -11,7 +11,7 @@ class SymbolClass:
             raise('Chave invalida')
     def setter(self, chave,tipo, valor=None):
         if chave in self.tabela.keys():
-            self.tabela[chave] = valor
+            self.tabela[chave] = (valor,tipo)
         else:
             self.tabela[chave] = (valor,tipo)
 
@@ -43,27 +43,27 @@ class UnOp(Node):
 
 class Binop(Node):
     def evaluate(self):
-        #print('Biop',self.value, [type(x)for x in self.filhos])
+        # print('Biop',self.value, [x.evaluate() for x in self.filhos])
         if self.value == 'minus': 
-            return self.filhos[0].evaluate() - self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] - self.filhos[1].evaluate()[0], 'int')
         elif self.value == 'plus':
-            return self.filhos[0].evaluate() + self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] + self.filhos[1].evaluate()[0], 'int')
         elif self.value == 'times':
-            return self.filhos[0].evaluate() * self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] * self.filhos[1].evaluate()[0], 'int')
         elif self.value == 'div':
-            return self.filhos[0].evaluate() // self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] // self.filhos[1].evaluate()[0], 'int')
         elif self.value == 'and':
-            return self.filhos[0].evaluate() and self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] and self.filhos[1].evaluate()[0],'int')
         elif self.value == 'or':
-            return self.filhos[0].evaluate() or self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] or self.filhos[1].evaluate()[0],'int')
         elif self.value == 'comp':
-            return self.filhos[0].evaluate() == self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] == self.filhos[1].evaluate()[0],'int')
         elif self.value == 'menor':
-            return self.filhos[0].evaluate() < self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] < self.filhos[1].evaluate()[0],'int')
         elif self.value == 'maior':
-            return self.filhos[0].evaluate() > self.filhos[1].evaluate()
+            return (self.filhos[0].evaluate()[0] > self.filhos[1].evaluate()[0],'int')
         elif self.value == 'concat':
-            return str(self.filhos[0].evaluate()) + str(self.filhos[1].evaluate())
+            return (str(self.filhos[0].evaluate()[0]) + str(self.filhos[1].evaluate()[0]),'string')
 class IfOp(Node):
     def evaluate(self):
         #print('If',self.value, [type(x)for x in self.filhos])
@@ -109,9 +109,10 @@ class Assigment(Node):
     #direita= expression do valor
     def evaluate(self):
         if len(self.filhos) == 2:
-            print('11111111111')
-            print(self.filhos)
-            tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1],self.filhos[1].evaluate())
+            if len(self.filhos[0].value)==2:
+                tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1],self.filhos[1].evaluate())
+            else:
+                tabela.setter(self.filhos[0].value[0],tabela.getter(self.filhos[0].value[0])[1]  ,self.filhos[1].evaluate())
         else:
             tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1])
 
