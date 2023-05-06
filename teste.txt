@@ -1,8 +1,11 @@
-x::Int
-y::Int
-z::String = "x: "
-x = 1
-y = 2
-println(x + y)
-println(z . x)
-println(x + z) # ERROR
+  # All bool and int operations
+  y::Int = 2
+  z::Int  
+  z = (2 == y)
+  println(y+z)
+  println(y-z)
+  println(y*z)
+  println(y/z)
+  println(y == z)
+  println(y < z)
+  println(y > z)

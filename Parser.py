@@ -87,8 +87,7 @@ class Parser:
     
     def parseRelExpr():
         filho1 = Parser.parseExepresion()
-        while True:   
-            
+        while True:               
             if (Parser.tolk.next.type == 'comp') or (Parser.tolk.next.type == 'maior') or (Parser.tolk.next.type == 'menor'):
                 tipo = Parser.tolk.next.type
                 Parser.tolk.selectNext() 

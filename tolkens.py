@@ -80,7 +80,7 @@ class WhileOp(Node):
 class Intvar(Node):
     def evaluate(self):
         #print('Intvar',self.value, [type(x)for x in self.filhos])
-        return int(self.value)
+        return (int(self.value),'int')
 
 class Stringvar(Node):
     def evaluate(self):
@@ -110,9 +110,9 @@ class Assigment(Node):
     def evaluate(self):
         if len(self.filhos) == 2:
             if len(self.filhos[0].value)==2:
-                tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1],self.filhos[1].evaluate())
+                tabela.setter(self.filhos[0].value[0],self.filhos[1].evaluate()[1],self.filhos[1].evaluate()[0])
             else:
-                tabela.setter(self.filhos[0].value[0],tabela.getter(self.filhos[0].value[0])[1]  ,self.filhos[1].evaluate())
+                tabela.setter(self.filhos[0].value[0],tabela.getter(self.filhos[0].value[0])[1]  ,self.filhos[1].evaluate()[0])
         else:
             tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1])
 

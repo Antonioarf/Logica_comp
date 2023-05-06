@@ -30,6 +30,16 @@ class Tolkenizer:
                     self.next = Token(nome,'var')
                 elif nome == 'println':
                     self.next = Token('print','print')
+                elif nome == 'readline':
+                    self.next = Token('read','read')
+                elif nome == 'if':
+                    self.next = Token('if','if')
+                elif nome == 'while':
+                    self.next = Token('while','while')
+                elif nome == 'end':
+                    self.next = Token('end','end')
+                elif nome == 'else':
+                    self.next = Token('else','else')
 
             elif self.source[index+pulo] ==':':
                 if self.source[index+pulo:index+pulo+5] =='::Int':
@@ -45,6 +55,31 @@ class Tolkenizer:
                 pulo+=1
                 self.next = Token(self.source[index+1:index+pulo-1],'string')
 
+            elif self.source[index:(index+2)] =='==' :
+                self.next = Token('rel','comp')
+                ultimo_n=False
+                pulo+=2
+            elif self.source[index] =='<':
+                self.next = Token('rel','menor')
+                ultimo_n=False
+                pulo+=1
+            elif self.source[index] =='>':
+                self.next = Token('rel','maior')
+                ultimo_n=False
+                pulo+=1
+            
+            elif self.source[index:(index+2)] =='&&':
+                self.next = Token('log','and')
+                ultimo_n=False
+                pulo+=2
+            elif self.source[index:(index+2)] =='||':
+                self.next = Token('log','or')
+                ultimo_n=False
+                pulo+=2
+            elif self.source[index] =='!':
+                self.next = Token('log','not')
+                ultimo_n=False
+                pulo+=1
 
             elif ord(self.source[index]) ==10:
                 self.next = Token('break','break')
