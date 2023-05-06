@@ -9,7 +9,7 @@ class Tolkenizer:
     def selectNext(self):
         ultimo_n= False
         index= self.position
-        reservadas = ['println','Int', 'String']
+        reservadas = ['println','Int', 'String','readline','if','while','end','else']
         while index < len(self.source): 
             pulo = 0
             while self.source[index]==' ':

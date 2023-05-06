@@ -119,8 +119,10 @@ class Assigment(Node):
             chave = self.filhos[0].value
         elif type(self.filhos[0])==Createvar:
             chave = self.filhos[0].evaluate()[0]
-        tipo = self.filhos[1].evaluate()[1]
-        valor = self.filhos[1].evaluate()[0]
+        resul = self.filhos[1].evaluate()
+        tipo = resul[1]
+        valor = resul[0]
+
         tabela.setter(chave=chave,tipo=tipo,valor=valor)
 
 class Createvar(Node):
