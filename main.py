@@ -7,9 +7,7 @@ resul = roda.run(arq)
 resul.evaluate()
 # print(tabela.tabela)
 
-# tupla quando var vem direto
-
-
-
-
-
+# int*str
+#
+#
+#

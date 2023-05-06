@@ -3,6 +3,8 @@ class SymbolClass:
     def __init__(self):
         ## private varibale or property in Python
         self.tabela={}
+    def verifica(self, valor):
+        return valor in self.tabela.keys()
 
     def getter(self, valor):
         if valor in self.tabela.keys():
@@ -29,7 +31,7 @@ class Node:
 
 class Readln(Node):
     def evaluate(self):
-         return int(input())
+         return (int(input()),'int')
 
 
 class UnOp(Node):
@@ -45,6 +47,8 @@ class UnOp(Node):
 class Binop(Node):
     def evaluate(self):
         # print('Biop',self.value, [x.evaluate() for x in self.filhos])
+        if (self.filhos[0].evaluate()[1] != self.filhos[1].evaluate()[1]) and (self.value in ['plus','minus','times','div']):
+            raise Exception('Tipos diferentes')
         if self.value == 'minus': 
             return (self.filhos[0].evaluate()[0] - self.filhos[1].evaluate()[0], 'int')
         elif self.value == 'plus':
@@ -54,15 +58,15 @@ class Binop(Node):
         elif self.value == 'div':
             return (self.filhos[0].evaluate()[0] // self.filhos[1].evaluate()[0], 'int')
         elif self.value == 'and':
-            return (self.filhos[0].evaluate()[0] and self.filhos[1].evaluate()[0],'int')
+            return (int(self.filhos[0].evaluate()[0] and self.filhos[1].evaluate()[0]),'int')
         elif self.value == 'or':
-            return (self.filhos[0].evaluate()[0] or self.filhos[1].evaluate()[0],'int')
+            return (int(self.filhos[0].evaluate()[0] or self.filhos[1].evaluate()[0]),'int')
         elif self.value == 'comp':
-            return (self.filhos[0].evaluate()[0] == self.filhos[1].evaluate()[0],'int')
+            return (int(self.filhos[0].evaluate()[0] == self.filhos[1].evaluate()[0]),'int')
         elif self.value == 'menor':
-            return (self.filhos[0].evaluate()[0] < self.filhos[1].evaluate()[0],'int')
+            return (int(self.filhos[0].evaluate()[0] < self.filhos[1].evaluate()[0]),'int')
         elif self.value == 'maior':
-            return (self.filhos[0].evaluate()[0] > self.filhos[1].evaluate()[0],'int')
+            return (int(self.filhos[0].evaluate()[0] > self.filhos[1].evaluate()[0]),'int')
         elif self.value == 'concat':
             return (str(self.filhos[0].evaluate()[0]) + str(self.filhos[1].evaluate()[0]),'string')
 class IfOp(Node):
@@ -124,8 +128,11 @@ class Createvar(Node):
         #print('createvar',self.value, [type(x)for x in self.filhos])
         #valor = tipo
         #filho = identifier
-        tabela.setter(chave = self.filhos[0].value,tipo = self.value)
-        return (self.filhos[0].value,self.value)
+        if not tabela.verifica(self.filhos[0].value):
+            tabela.setter(chave = self.filhos[0].value,tipo = self.value)
+            return (self.filhos[0].value,self.value)
+        else:
+            raise Exception('Variavel ja declarada')
     
 
 class Block(Node):
