@@ -10,7 +10,7 @@ class SymbolClass:
         if valor in self.tabela.keys():
             return self.tabela[valor]
         else:
-            print(self.tabela, valor)
+            # print(self.tabela, valor)
             raise('Chave invalida')
     def setter(self, chave,tipo, valor=None):
         if chave in self.tabela.keys():
@@ -38,11 +38,11 @@ class UnOp(Node):
     def evaluate(self):
         #print('Unop',self.value, [type(x)for x in self.filhos])
         if self.value == 'minus': 
-            return - self.filhos[0].evaluate()
+            return (-self.filhos[0].evaluate(), 'int')
         elif self.value == 'plus':
-            return self.filhos[0].evaluate()
+            return (self.filhos[0].evaluate(), 'int')
         elif self.value == 'not':
-            return not self.filhos[0].evaluate()
+            return (int(not self.filhos[0].evaluate()), 'int')
 
 class Binop(Node):
     def evaluate(self):
@@ -78,9 +78,10 @@ class IfOp(Node):
             self.filhos[2].evaluate()
 class WhileOp(Node):
     def evaluate(self):
-        #print('While',self.value, [type(x)for x in self.filhos])
-        while self.filhos[0].filhos:
+        # print('While',self.value, [x.value for x in self.filhos])
+        while self.filhos[0].evaluate()[0]:
             self.filhos[1].evaluate()
+            
             
 class Intvar(Node):
     def evaluate(self):
