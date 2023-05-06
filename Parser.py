@@ -57,9 +57,11 @@ class Parser:
             print('11111111111')
             Parser.tolk.selectNext()
             filhos = []
-            while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else') and (Parser.tolk.next.type != 'EOF'):
+            while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else'):
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
+                if (Parser.tolk.next.type == 'EOF'):
+                    raise('FIM DE ARQUIVO INESPERADO')
             filho1= Block('',filhos)
             if Parser.tolk.next.type == 'else':
                 Parser.tolk.selectNext()
@@ -76,9 +78,11 @@ class Parser:
             condicao = Parser.parseRelExpr()
             Parser.tolk.selectNext()
             filhos = []
-            while Parser.tolk.next.type != 'end' and Parser.tolk.next.type != 'EOF':
+            while Parser.tolk.next.type != 'end':
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
+                if (Parser.tolk.next.type == 'EOF'):
+                    raise('FIM DE ARQUIVO INESPERADO')
             filho1= Block('',filhos)
             return WhileOp('',[condicao,filho1])    
         
