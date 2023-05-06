@@ -33,13 +33,15 @@ class Parser:
                 return Assigment('',[Identifier(valor,[]),filho])
             elif Parser.tolk.next.type == 'tipo':
                 tipo = Parser.tolk.next.value
+                cria = Createvar(tipo, [Identifier(valor,[])])
+
                 Parser.tolk.selectNext()
                 if Parser.tolk.next.type == 'igual':
                     Parser.tolk.selectNext()
                     filho = Parser.parseRelExpr()
-                    return Assigment('',[Identifier((valor, tipo),[]),filho])
+                    return Assigment('',[cria,filho])
                 else:
-                    return Assigment('',[Identifier((valor, tipo),[])])
+                    return cria
 
             else:
                 raise ('VAR SEM IGUAL DEPOIS')
@@ -137,7 +139,7 @@ class Parser:
         if Parser.tolk.next.type == 'int':
             return Intvar(int(Parser.tolk.next.value),[])
         elif Parser.tolk.next.type == 'string':
-            return Stringvar(Parser.tolk.next.value,[])
+            return Stringvar(str(Parser.tolk.next.value),[])
         elif Parser.tolk.next.type == 'var':
             return Identifier(Parser.tolk.next.value,[])
 

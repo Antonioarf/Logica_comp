@@ -8,6 +8,7 @@ class SymbolClass:
         if valor in self.tabela.keys():
             return self.tabela[valor]
         else:
+            print(self.tabela, valor)
             raise('Chave invalida')
     def setter(self, chave,tipo, valor=None):
         if chave in self.tabela.keys():
@@ -85,7 +86,7 @@ class Intvar(Node):
 class Stringvar(Node):
     def evaluate(self):
         #print('Stringvar',self.value, [type(x)for x in self.filhos])
-        return str(self.value)
+        return (str(self.value),'string')
 
 class NoOp(Node):
     def evaluate(self):
@@ -103,18 +104,29 @@ class Identifier(Node):
     def evaluate(self):
         #print('ident-getter',self.value, [type(x)for x in self.filhos])
         return tabela.getter(self.value)
+    
 class Assigment(Node):
     #2 filhos:
     #esquerda= Identifier pra criar
     #direita= expression do valor
     def evaluate(self):
-        if len(self.filhos) == 2:
-            if len(self.filhos[0].value)==2:
-                tabela.setter(self.filhos[0].value[0],self.filhos[1].evaluate()[1],self.filhos[1].evaluate()[0])
-            else:
-                tabela.setter(self.filhos[0].value[0],tabela.getter(self.filhos[0].value[0])[1]  ,self.filhos[1].evaluate()[0])
-        else:
-            tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1])
+        # print('assigment',self.value, [type(x) for x in self.filhos])
+        if type(self.filhos[0])==Identifier:
+            chave = self.filhos[0].value
+        elif type(self.filhos[0])==Createvar:
+            chave = self.filhos[0].evaluate()[0]
+        tipo = self.filhos[1].evaluate()[1]
+        valor = self.filhos[1].evaluate()[0]
+        tabela.setter(chave=chave,tipo=tipo,valor=valor)
+
+class Createvar(Node):
+    def evaluate(self):
+        #print('createvar',self.value, [type(x)for x in self.filhos])
+        #valor = tipo
+        #filho = identifier
+        tabela.setter(chave = self.filhos[0].value,tipo = self.value)
+        return (self.filhos[0].value,self.value)
+    
 
 class Block(Node):
     #criado na funcao raiz BLOCK
