@@ -9,7 +9,7 @@ class Tolkenizer:
     def selectNext(self):
         ultimo_n= False
         index= self.position
-        reservadas = ['println','readline','if',"while","end","else"]
+        reservadas = ['println']
         while index < len(self.source): 
             pulo = 0
             while self.source[index]==' ':
@@ -30,50 +30,12 @@ class Tolkenizer:
                     self.next = Token(nome,'var')
                 elif nome == 'println':
                     self.next = Token('print','print')
-                elif nome == 'readline':
-                    self.next = Token('read','read')
-                elif nome == 'if':
-                    self.next = Token('if','if')
-                elif nome == 'while':
-                    self.next = Token('while','while')
-                elif nome == 'end':
-                    self.next = Token('end','end')
-                elif nome == 'else':
-                    self.next = Token('else','else')
             
             
             elif ord(self.source[index]) ==10:
                 self.next = Token('break','break')
                 ultimo_n=False
                 pulo+=1
-
-            elif self.source[index:(index+2)] =='==' :
-                self.next = Token('rel','comp')
-                ultimo_n=False
-                pulo+=2
-            elif self.source[index] =='<':
-                self.next = Token('rel','menor')
-                ultimo_n=False
-                pulo+=1
-            elif self.source[index] =='>':
-                self.next = Token('rel','maior')
-                ultimo_n=False
-                pulo+=1
-            
-            elif self.source[index:(index+2)] =='&&':
-                self.next = Token('log','and')
-                ultimo_n=False
-                pulo+=2
-            elif self.source[index:(index+2)] =='||':
-                self.next = Token('log','or')
-                ultimo_n=False
-                pulo+=2
-            elif self.source[index] =='!':
-                self.next = Token('log','not')
-                ultimo_n=False
-                pulo+=1
-
-            
             elif self.source[index] =='=':
                 self.next = Token('sinal','igual')
                 ultimo_n=False
@@ -100,6 +62,10 @@ class Tolkenizer:
                 pulo+=1
             elif self.source[index]==')':
                 self.next = Token('par','C_par')
+                ultimo_n=False
+                pulo+=1
+            elif self.source[index]=='.':
+                self.next = Token('concat','concat')
                 ultimo_n=False
                 pulo+=1
             else:

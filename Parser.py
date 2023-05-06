@@ -96,7 +96,7 @@ class Parser:
     def parseExepresion():
         filho1 = Parser.parseTerm()
         while True:   
-            if (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'minus') or (Parser.tolk.next.type == 'or'):
+            if (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'minus') or (Parser.tolk.next.type == 'or') or (Parser.tolk.next.type == 'concat'):
                 tipo = Parser.tolk.next.type
                 Parser.tolk.selectNext() 
                 filho2 =Parser.parseTerm()

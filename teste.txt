@@ -1,3 +1,2 @@
-     if 1==1 
-     println(1) end
-
+var =2
+println(10 . 9 . 1)

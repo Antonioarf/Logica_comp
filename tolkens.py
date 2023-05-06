@@ -59,6 +59,8 @@ class Binop(Node):
             return self.filhos[0].evaluate() < self.filhos[1].evaluate()
         elif self.value == 'maior':
             return self.filhos[0].evaluate() > self.filhos[1].evaluate()
+        elif self.value == 'concat':
+            return str(self.filhos[0].evaluate()) + str(self.filhos[1].evaluate())
 class IfOp(Node):
     def evaluate(self):
         #print('If',self.value, [type(x)for x in self.filhos])
