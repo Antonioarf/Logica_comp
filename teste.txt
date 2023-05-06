@@ -1,2 +1,5 @@
-var =2
-println(10 . 9 . 1)
+x::Int
+y::Int 
+z::String = "x: "
+x = 1
+println(0 . x)

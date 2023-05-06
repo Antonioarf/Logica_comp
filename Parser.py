@@ -31,6 +31,16 @@ class Parser:
                 Parser.tolk.selectNext()
                 filho = Parser.parseRelExpr()
                 return Assigment('',[Identifier(valor,[]),filho])
+            elif Parser.tolk.next.type == 'tipo':
+                tipo = Parser.tolk.next.value
+                Parser.tolk.selectNext()
+                if Parser.tolk.next.type == 'igual':
+                    Parser.tolk.selectNext()
+                    filho = Parser.parseRelExpr()
+                    return Assigment('',[Identifier((valor, tipo),[]),filho])
+                else:
+                    return Assigment('',[Identifier((valor, tipo),[])])
+
             else:
                 raise ('VAR SEM IGUAL DEPOIS')
         elif Parser.tolk.next.type == 'print':
@@ -127,6 +137,8 @@ class Parser:
     def parseFactor():
         if Parser.tolk.next.type == 'int':
             return Intvar(int(Parser.tolk.next.value),[])
+        elif Parser.tolk.next.type == 'string':
+            return Stringvar(Parser.tolk.next.value,[])
         elif Parser.tolk.next.type == 'var':
             return Identifier(Parser.tolk.next.value,[])
 

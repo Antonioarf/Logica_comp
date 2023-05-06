@@ -9,8 +9,11 @@ class SymbolClass:
             return self.tabela[valor]
         else:
             raise('Chave invalida')
-    def setter(self, chave, valor):
-        self.tabela[chave] = valor
+    def setter(self, chave,tipo, valor=None):
+        if chave in self.tabela.keys():
+            self.tabela[chave] = valor
+        else:
+            self.tabela[chave] = (valor,tipo)
 
 tabela = SymbolClass()
 class Token:
@@ -79,10 +82,20 @@ class Intvar(Node):
         #print('Intvar',self.value, [type(x)for x in self.filhos])
         return int(self.value)
 
+class Stringvar(Node):
+    def evaluate(self):
+        #print('Stringvar',self.value, [type(x)for x in self.filhos])
+        return str(self.value)
+
 class NoOp(Node):
     def evaluate(self):
         pass
 
+class Println(Node):
+    #valor = nada
+    #filho= parseexpression 
+    def evaluate(self):
+        print (self.filhos[0].evaluate()[0])
 
 class Identifier(Node): 
     # value=nome da variavel
@@ -90,19 +103,17 @@ class Identifier(Node):
     def evaluate(self):
         #print('ident-getter',self.value, [type(x)for x in self.filhos])
         return tabela.getter(self.value)
-
-class Println(Node):
-    #valor = nada
-    #filho= parseexpression 
-    def evaluate(self):
-        print (self.filhos[0].evaluate())
-
 class Assigment(Node):
     #2 filhos:
     #esquerda= Identifier pra criar
     #direita= expression do valor
     def evaluate(self):
-        tabela.setter(self.filhos[0].value,self.filhos[1].evaluate())
+        if len(self.filhos) == 2:
+            print('11111111111')
+            print(self.filhos)
+            tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1],self.filhos[1].evaluate())
+        else:
+            tabela.setter(self.filhos[0].value[0],self.filhos[0].value[1])
 
 class Block(Node):
     #criado na funcao raiz BLOCK

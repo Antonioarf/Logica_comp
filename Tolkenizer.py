@@ -9,7 +9,7 @@ class Tolkenizer:
     def selectNext(self):
         ultimo_n= False
         index= self.position
-        reservadas = ['println']
+        reservadas = ['println','Int', 'String']
         while index < len(self.source): 
             pulo = 0
             while self.source[index]==' ':
@@ -30,8 +30,22 @@ class Tolkenizer:
                     self.next = Token(nome,'var')
                 elif nome == 'println':
                     self.next = Token('print','print')
-            
-            
+
+            elif self.source[index+pulo] ==':':
+                if self.source[index+pulo:index+pulo+5] =='::Int':
+                    pulo+=5
+                    self.next = Token('Int','tipo')
+                elif self.source[index+pulo:index+pulo+8] =='::String':
+                    pulo+=8
+                    self.next = Token("String",'tipo')
+            elif self.source[index] =='"':
+                pulo+=1
+                while self.source[index+pulo] !='"':
+                    pulo+=1
+                pulo+=1
+                self.next = Token(self.source[index+1:index+pulo-1],'string')
+
+
             elif ord(self.source[index]) ==10:
                 self.next = Token('break','break')
                 ultimo_n=False
@@ -72,6 +86,7 @@ class Tolkenizer:
                 raise Exception("Invalid Char", self.source[index])
             index+=pulo
             self.position = index
+            print(self.next.type, self.next.value)
             return self.next
 
         self.next = Token('teste','EOF')
