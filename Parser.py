@@ -53,9 +53,11 @@ class Parser:
         elif Parser.tolk.next.type == 'if':
             Parser.tolk.selectNext()
             condicao = Parser.parseRelExpr()
+            print(condicao)
+            print('11111111111')
             Parser.tolk.selectNext()
             filhos = []
-            while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else'):
+            while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else') and (Parser.tolk.next.type != 'EOF'):
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
             filho1= Block('',filhos)
@@ -74,7 +76,7 @@ class Parser:
             condicao = Parser.parseRelExpr()
             Parser.tolk.selectNext()
             filhos = []
-            while Parser.tolk.next.type != 'end':
+            while Parser.tolk.next.type != 'end' and Parser.tolk.next.type != 'EOF':
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
             filho1= Block('',filhos)

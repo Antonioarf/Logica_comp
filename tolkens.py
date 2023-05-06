@@ -79,7 +79,7 @@ class IfOp(Node):
 class WhileOp(Node):
     def evaluate(self):
         #print('While',self.value, [type(x)for x in self.filhos])
-        while self.filhos[0].evaluate():
+        while self.filhos[0].filhos:
             self.filhos[1].evaluate()
             
 class Intvar(Node):
@@ -114,6 +114,7 @@ class Assigment(Node):
     #esquerda= Identifier pra criar
     #direita= expression do valor
     def evaluate(self):
+        # print('assigment',self.value, [x.evaluate() for x in self.filhos])
         # print('assigment',self.value, [type(x) for x in self.filhos])
         if type(self.filhos[0])==Identifier:
             chave = self.filhos[0].value
