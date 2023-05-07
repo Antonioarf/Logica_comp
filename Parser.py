@@ -48,9 +48,6 @@ class Parser:
         elif Parser.tolk.next.type == 'print':
             Parser.tolk.selectNext()
             filho = Parser.parseFactor()
-            print(Parser.tolk.next.type)
-            Parser.tolk.selectNext()
-            print(Parser.tolk.next.type)
             return Println('',[filho])
         
         elif Parser.tolk.next.type == 'if':
