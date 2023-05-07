@@ -42,9 +42,9 @@ class Parser:
                     return Assigment('',[cria,filho])
                 else:
                     return cria
+
             else:
                 raise ('VAR SEM IGUAL DEPOIS')
-            
         elif Parser.tolk.next.type == 'print':
             Parser.tolk.selectNext()
             filho = Parser.parseFactor()
@@ -58,6 +58,8 @@ class Parser:
             while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else'):
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
+                if (Parser.tolk.next.type == 'EOF'):
+                    raise('FIM DE ARQUIVO INESPERADO')
             filho1= Block('',filhos)
             if Parser.tolk.next.type == 'else':
                 Parser.tolk.selectNext()
@@ -85,7 +87,7 @@ class Parser:
         elif Parser.tolk.next.type == 'break':
             return NoOp('',[])
         
-        if Parser.tolk.next.type == 'end' or Parser.tolk.next.type == 'else':
+        elif Parser.tolk.next.type == 'end' or Parser.tolk.next.type == 'else':
             raise Exception("tinha q ter entrado no if ou while")
     
     
