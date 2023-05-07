@@ -48,7 +48,7 @@ class Binop(Node):
     def evaluate(self):
         # print('Biop',self.value, [x.evaluate() for x in self.filhos])
         if (self.filhos[0].evaluate()[1] != self.filhos[1].evaluate()[1]) and (self.value in ['plus','minus','times','div']):
-            raise Exception('Tipos diferentes')
+            raise Exception('Tipos diferentes1')
         if self.value == 'minus': 
             return (self.filhos[0].evaluate()[0] - self.filhos[1].evaluate()[0], 'Int')
         elif self.value == 'plus':
@@ -68,7 +68,7 @@ class Binop(Node):
         elif self.value == 'maior':
             return (int(self.filhos[0].evaluate()[0] > self.filhos[1].evaluate()[0]),'Int')
         elif self.value == 'concat':
-            return (str(self.filhos[0].evaluate()[0]) + str(self.filhos[1].evaluate()[0]),'string')
+            return (str(self.filhos[0].evaluate()[0]) + str(self.filhos[1].evaluate()[0]),'String')
 class IfOp(Node):
     def evaluate(self):
         #print('If',self.value, [type(x)for x in self.filhos])
@@ -91,7 +91,7 @@ class Intvar(Node):
 class Stringvar(Node):
     def evaluate(self):
         #print('Stringvar',self.value, [type(x)for x in self.filhos])
-        return (str(self.value),'string')
+        return (str(self.value),'String')
 
 class NoOp(Node):
     def evaluate(self):
@@ -123,7 +123,8 @@ class Assigment(Node):
             chave = self.filhos[0].evaluate()[0]
         resul = self.filhos[1].evaluate()
         if resul[1] != tabela.getter(chave)[1]:
-            raise Exception('Tipos diferentes')
+            print(resul[1],tabela.getter(chave)[1])
+            raise Exception('Tipos diferentes2')
 
         tabela.setter(chave=chave,tipo=resul[1],valor=resul[0])
 
