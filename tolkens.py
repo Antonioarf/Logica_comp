@@ -115,17 +115,16 @@ class Assigment(Node):
     #esquerda= Identifier pra criar
     #direita= expression do valor
     def evaluate(self):
-        # print('assigment',self.value, [x.evaluate() for x in self.filhos])
-        # print('assigment',self.value, [type(x) for x in self.filhos])
+        resul = self.filhos[1].evaluate()
         if type(self.filhos[0])==Identifier:
             chave = self.filhos[0].value
         elif type(self.filhos[0])==Createvar:
             chave = self.filhos[0].evaluate()[0]
-        resul = self.filhos[1].evaluate()
-        tipo = resul[1]
-        valor = resul[0]
+        if tabela.verifica(chave):
+            if resul[1] != tabela.getter(chave)[1]:
+                raise Exception('Tipos diferentes')
 
-        tabela.setter(chave=chave,tipo=tipo,valor=valor)
+        tabela.setter(chave=chave,tipo=resul[1],valor=resul[0])
 
 class Createvar(Node):
     def evaluate(self):

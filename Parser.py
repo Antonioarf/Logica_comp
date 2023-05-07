@@ -48,6 +48,8 @@ class Parser:
         elif Parser.tolk.next.type == 'print':
             Parser.tolk.selectNext()
             filho = Parser.parseFactor()
+            if Parser.tolk.next.type != 'break':
+                raise('PRINT SEM BREAK')
             return Println('',[filho])
         
         elif Parser.tolk.next.type == 'if':
@@ -60,6 +62,7 @@ class Parser:
                 Parser.tolk.selectNext()
                 if (Parser.tolk.next.type == 'EOF'):
                     raise('FIM DE ARQUIVO INESPERADO')
+
             filho1= Block('',filhos)
             if Parser.tolk.next.type == 'else':
                 Parser.tolk.selectNext()
