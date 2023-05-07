@@ -56,10 +56,14 @@ class Parser:
             Parser.tolk.selectNext()
             filhos = []
             while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else'):
+                ultimo = Parser.tolk.next.type
                 filhos.append(Parser.parseStatment())
                 Parser.tolk.selectNext()
+                if (Parser.tolk.next.type == 'end') and (ultimo != 'break'):
+                    raise('END A MAIS')
                 if (Parser.tolk.next.type == 'EOF'):
                     raise('FIM DE ARQUIVO INESPERADO')
+
             filho1= Block('',filhos)
             if Parser.tolk.next.type == 'else':
                 Parser.tolk.selectNext()
