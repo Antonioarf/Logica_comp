@@ -31,18 +31,18 @@ class Node:
 
 class Readln(Node):
     def evaluate(self):
-         return (int(input()),'int')
+         return (int(input()),'Int')
 
 
 class UnOp(Node):
     def evaluate(self):
         #print('Unop',self.value, [type(x)for x in self.filhos])
         if self.value == 'minus': 
-            return (-self.filhos[0].evaluate(), 'int')
+            return (-self.filhos[0].evaluate(), 'Int')
         elif self.value == 'plus':
-            return (self.filhos[0].evaluate(), 'int')
+            return (self.filhos[0].evaluate(), 'Int')
         elif self.value == 'not':
-            return (int(not self.filhos[0].evaluate()), 'int')
+            return (int(not self.filhos[0].evaluate()), 'Int')
 
 class Binop(Node):
     def evaluate(self):
@@ -50,23 +50,23 @@ class Binop(Node):
         if (self.filhos[0].evaluate()[1] != self.filhos[1].evaluate()[1]) and (self.value in ['plus','minus','times','div']):
             raise Exception('Tipos diferentes')
         if self.value == 'minus': 
-            return (self.filhos[0].evaluate()[0] - self.filhos[1].evaluate()[0], 'int')
+            return (self.filhos[0].evaluate()[0] - self.filhos[1].evaluate()[0], 'Int')
         elif self.value == 'plus':
-            return (self.filhos[0].evaluate()[0] + self.filhos[1].evaluate()[0], 'int')
+            return (self.filhos[0].evaluate()[0] + self.filhos[1].evaluate()[0], 'Int')
         elif self.value == 'times':
-            return (self.filhos[0].evaluate()[0] * self.filhos[1].evaluate()[0], 'int')
+            return (self.filhos[0].evaluate()[0] * self.filhos[1].evaluate()[0], 'Int')
         elif self.value == 'div':
-            return (self.filhos[0].evaluate()[0] // self.filhos[1].evaluate()[0], 'int')
+            return (self.filhos[0].evaluate()[0] // self.filhos[1].evaluate()[0], 'Int')
         elif self.value == 'and':
-            return (int(self.filhos[0].evaluate()[0] and self.filhos[1].evaluate()[0]),'int')
+            return (int(self.filhos[0].evaluate()[0] and self.filhos[1].evaluate()[0]),'Int')
         elif self.value == 'or':
-            return (int(self.filhos[0].evaluate()[0] or self.filhos[1].evaluate()[0]),'int')
+            return (int(self.filhos[0].evaluate()[0] or self.filhos[1].evaluate()[0]),'Int')
         elif self.value == 'comp':
-            return (int(self.filhos[0].evaluate()[0] == self.filhos[1].evaluate()[0]),'int')
+            return (int(self.filhos[0].evaluate()[0] == self.filhos[1].evaluate()[0]),'Int')
         elif self.value == 'menor':
-            return (int(self.filhos[0].evaluate()[0] < self.filhos[1].evaluate()[0]),'int')
+            return (int(self.filhos[0].evaluate()[0] < self.filhos[1].evaluate()[0]),'Int')
         elif self.value == 'maior':
-            return (int(self.filhos[0].evaluate()[0] > self.filhos[1].evaluate()[0]),'int')
+            return (int(self.filhos[0].evaluate()[0] > self.filhos[1].evaluate()[0]),'Int')
         elif self.value == 'concat':
             return (str(self.filhos[0].evaluate()[0]) + str(self.filhos[1].evaluate()[0]),'string')
 class IfOp(Node):
@@ -86,7 +86,7 @@ class WhileOp(Node):
 class Intvar(Node):
     def evaluate(self):
         #print('Intvar',self.value, [type(x)for x in self.filhos])
-        return (int(self.value),'int')
+        return (int(self.value),'Int')
 
 class Stringvar(Node):
     def evaluate(self):
@@ -122,7 +122,8 @@ class Assigment(Node):
             chave = self.filhos[0].evaluate()[0]
         if tabela.verifica(chave):
             if resul[1] != tabela.getter(chave)[1]:
-                raise Exception('Tipos diferentes')
+                print(resul[1],tabela.getter(chave)[1])
+                raise Exception('Tipos diferentes23')
 
         tabela.setter(chave=chave,tipo=resul[1],valor=resul[0])
 
