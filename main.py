@@ -4,9 +4,11 @@ from tolkens import tabela
 arq = argv[1]
 roda = Parser()
 resul = roda.run(arq)
-resul.evaluate()
-# print(tabela.tabela)
-
+resul.evaluate(0)
+assembler.write(arq)
+assembler.write('teste')
+print(tabela.tabela)
+#resolver while: tem q evaluate condicao antes
 # int*str
 #
 #
