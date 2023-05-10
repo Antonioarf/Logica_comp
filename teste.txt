@@ -1,8 +1,10 @@
-x::Int
-x = 5
-WHILE x<10
-  x = x+1
-  println(x)
-
-END
-println(99)
+  y::Int = 2
+  z::Int  
+  z = (y == 2)
+  println(y+z)
+  println(y-z)
+  println(y*z)
+  println(y/z)
+  println(y == z)
+  println(y < z)
+  println(y > z)

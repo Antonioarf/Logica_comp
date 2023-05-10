@@ -148,8 +148,8 @@ class Binop(Node):
             assembler.add(f'add eax, ebx ;{id}')
             assembler.add(f'mov ebx, eax ;{id}')
         elif self.value == 'times':
-            assembler.add(f'mul eax, ebx ;{id}')
-            assembler.add(f'mov ebx, eax ;{id}')
+            assembler.add(f'mov al, eax ;{id}')
+            assembler.add(f'imul ebx ;{id}')
         elif self.value == 'div':
             assembler.add(f'div eax, ebx ;{id}')
             assembler.add(f'mov ebx, eax ;{id}')
@@ -194,16 +194,19 @@ class Assigment(Node):
     def evaluate(self, id):
         print("assin",id)
         # print('assigment',self.value, [x.evaluate(id+1) for x in self.filhos])
-        # print(f'assigment{id}',self.value, [type(x) for x in self.filhos])
-
-        chave = tabela.getter(self.filhos[0].value)[0]
+        print(f'assigment{id}',self.value, [type(x) for x in self.filhos])
+        if type(self.filhos[0])== Createvar:
+            self.filhos[0].evaluate(id+1)
+            chave = tabela.getter(self.filhos[0].filhos[0].value)[0]
+        else:
+            chave = tabela.getter(self.filhos[0].value)[0]
         self.filhos[1].evaluate(id+1)
         assembler.add('mov [ebp- {}], ebx'.format(chave))
 
 class Createvar(Node):
     def evaluate(self, id):
         print("creare",id)
-        #print('createvar',self.value, [type(x)for x in self.filhos])
+        print('createvar',self.value, [type(x)for x in self.filhos])
         #valor = tipo
         #filho = identifier
         if not tabela.verifica(self.filhos[0].value):
