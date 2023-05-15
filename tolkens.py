@@ -63,21 +63,16 @@ class Readln(Node):
          return (int(input()),'Int')
     
 class Println(Node):
-    #valor = nada
-    #filho= parseexpression 
     def evaluate(self, id):
-        print('print',id)
-        # print (self.filhos[0].evaluate(id+1)[0])
+        #print('print',id)
         self.filhos[0].evaluate(id+1)
         assembler.add(f"push ebx ;{id}")
         assembler.add(f"CALL print ;{id}")
         assembler.add(f"pop ebx ;{id}")
 #==============================================================================
 class Block(Node):
-    #criado na funcao raiz BLOCK
-    #um filho pra cada linha => append de filho
     def evaluate(self, id):
-        print("block" , id)
+        #print("block" , id)
         atual = id
         for filho in self.filhos:
             filho.evaluate(atual)
@@ -85,8 +80,7 @@ class Block(Node):
 #==============================================================================
 class IfOp(Node):
     def evaluate(self, id):
-        print('if',id)
-        #print('If',self.value, [type(x)for x in self.filhos])
+        #print('if',id)
         self.filhos[0].evaluate(id+1)
         assembler.add('cmp ebx, 1 ; COMP IF')
         assembler.add('je endIF{}'.format(id))
@@ -99,10 +93,7 @@ class IfOp(Node):
 
 class WhileOp(Node):
     def evaluate(self, id):
-        print('while',id)
-        # print('While',self.value, [x.value for x in self.filhos])
-        # while self.filhos[0].evaluate(id+1)[0]:
-        #     self.filhos[1].evaluate(id+1)
+        #print('while',id)
         assembler.add('while{}:'.format(id))
         self.filhos[0].evaluate(id+1)
         assembler.add('cmp ebx, 0 ; COMP WHILE')
@@ -113,9 +104,7 @@ class WhileOp(Node):
 #==============================================================================
 class Intvar(Node):
     def evaluate(self, id):
-        print('intvar',id)
-        # print(f'Intvar{id}',self.value, [type(x)for x in self.filhos])
-        #return (int(self.value),'Int')
+        #print('intvar',id)
         assembler.add('mov ebx, {} ; {}'.format(self.value,id))
 
 class Stringvar(Node):
@@ -136,8 +125,7 @@ class UnOp(Node):
 
 class Binop(Node):
     def evaluate(self, id):
-        print("biop",id)
-        # print('Biop',self.value, [x.evaluate(id+1) for x in self.filhos])
+        #print("biop",id)
         self.filhos[0].evaluate(id+1)
         assembler.add(f'push ebx ;{id}')
         self.filhos[1].evaluate(id+2)
@@ -179,23 +167,14 @@ class Binop(Node):
 
 
 class Identifier(Node): 
-    # value=nome da variavel
-    # 0 filhos
     def evaluate(self, id):
-        print("identifier",id)
-        # print('ident-getter',self.value, [type(x)for x in self.filhos])
-        # return tabela.getter(self.value)
+        #print("identifier",id)
         valor = tabela.getter(self.value)[0]
         assembler.add('mov ebx,  [ebp- {}] ; {}'.format(valor,id))
     
 class Assigment(Node):
-    #2 filhos:
-    #esquerda= Identifier pra criar
-    #direita= expression do valor
     def evaluate(self, id):
-        print("assin",id)
-        # print('assigment',self.value, [x.evaluate(id+1) for x in self.filhos])
-        #print(f'assigment{id}',self.value, [type(x) for x in self.filhos])
+        #print("assin",id)
         if type(self.filhos[0])== Createvar:
             self.filhos[0].evaluate(id+1)
             chave = tabela.getter(self.filhos[0].filhos[0].value)[0]
@@ -206,15 +185,9 @@ class Assigment(Node):
 
 class Createvar(Node):
     def evaluate(self, id):
-        print("creare",id)
-        #print('createvar',self.value, [type(x)for x in self.filhos])
-        #valor = tipo
-        #filho = identifier
+        #print("creare",id)
         if not tabela.verifica(self.filhos[0].value):
             assembler.add('PUSH DWORD 0')
             tabela.setter(chave = self.filhos[0].value,tipo = self.value)
         else:
             raise Exception('Variavel ja declarada')
-    
-
-

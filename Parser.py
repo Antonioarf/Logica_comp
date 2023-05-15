@@ -55,26 +55,34 @@ class Parser:
             condicao = Parser.parseRelExpr()
             Parser.tolk.selectNext()
             filhos = []
-            while (Parser.tolk.next.type != 'end' ) and (Parser.tolk.next.type != 'else'):
-                ultimo = Parser.tolk.next.type
-                filhos.append(Parser.parseStatment())
-                Parser.tolk.selectNext()
-                if (Parser.tolk.next.type == 'end') and (ultimo != 'break'):
-                    raise('END A MAIS')
-                if (Parser.tolk.next.type == 'EOF'):
-                    raise('FIM DE ARQUIVO INESPERADO')
-
+            linha = False
+            status = True
+            while status:
+                if Parser.tolk.next.type == 'break':
+                    linha = True
+                    Parser.tolk.selectNext()
+                if linha and (Parser.tolk.next.type == 'end' or Parser.tolk.next.type == 'else'):
+                    status = False
+                if status:
+                    filhos.append(Parser.parseStatment())
             filho1= Block('',filhos)
             if Parser.tolk.next.type == 'else':
                 Parser.tolk.selectNext()
-                filhos = []
-                while Parser.tolk.next.type != 'end':
-                    filhos.append(Parser.parseStatment())
+                if Parser.tolk.next.type == 'break':
                     Parser.tolk.selectNext()
-                filho2= Block('',filhos)
-                return IfOp('',[condicao,filho1,filho2])
+                    filhos2 = []
+                    while Parser.tolk.next.type != 'end':
+                        filhos2.append(Parser.parseStatment())  
+                        Parser.tolk.selectNext()             
+                    if Parser.tolk.next.type == 'end':
+                        Parser.tolk.selectNext()    
+                        filho2= Block('',filhos2)         
+                        return IfOp('',[condicao,filho1,filho2])                
+                    else:
+                        raise Exception('Algo de estranho aconteceu, confira a entrada')
             else:
                 return IfOp('',[condicao,filho1])
+
         elif Parser.tolk.next.type == 'while':
             Parser.tolk.selectNext()
             condicao = Parser.parseRelExpr()
