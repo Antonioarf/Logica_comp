@@ -45,7 +45,9 @@ class Tolkenizer:
                 elif nome == 'function':
                     self.next = Token('function','function')
 
-            elif self.source[index+pulo] ==':':
+            elif self.source[index:index+2] =='::':
+                while self.source[index]==' ':
+                    index+=1 
                 if self.source[index+pulo:index+pulo+5] =='::Int':
                     pulo+=5
                     self.next = Token('Int','tipo')
@@ -129,7 +131,8 @@ class Tolkenizer:
                 raise Exception("Invalid Char", self.source[index])
             index+=pulo
             self.position = index
-            # print(self.next.type, self.next.value)
+            if  self.next.type != 'C_par':
+                print(self.next.type, self.next.value)
             return self.next
 
         self.next = Token('teste','EOF')
