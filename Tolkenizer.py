@@ -63,7 +63,7 @@ class Tolkenizer:
                 pulo+=1
                 self.next = Token(self.source[index+1:index+pulo-1],'string')
             
-            elif self.source[index:(index+2)] ==',' :
+            elif self.source[index] ==',' :
                 self.next = Token('virgula','virgula')
                 ultimo_n=False
                 pulo+=1
