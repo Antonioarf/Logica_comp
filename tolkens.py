@@ -33,7 +33,7 @@ class Node:
 
 
 class Readln(Node):
-    def evaluate(self):
+    def evaluate(self,symbol):
          return (int(input()),'Int')
 
 class UnOp(Node):
@@ -143,15 +143,6 @@ class Createvar(Node):
             raise Exception('Variavel ja declarada',self.filhos[0].value)
     
 
-class Block(Node):
-    #criado na funcao raiz BLOCK
-    #um filho pra cada linha => append de filho
-    def evaluate(self,symbol):
-        for filho in self.filhos:
-            if type(filho) == ReturnOp:
-                return filho.evaluate(symbol)
-            filho.evaluate(symbol)
-
 functable ={}
 class FuncDec(Node):
     def evaluate(self,symbol):
@@ -177,3 +168,14 @@ class FuncCall(Node):
 class ReturnOp(Node):
     def evaluate(self,symbol):
         return self.filhos[0].evaluate(symbol)
+    
+
+class Block(Node):
+    #criado na funcao raiz BLOCK
+    #um filho pra cada linha => append de filho
+    def evaluate(self,symbol):
+        for filho in self.filhos:
+            # print('filho',filho)
+            if type(filho) == ReturnOp:
+                return filho.evaluate(symbol)
+            filho.evaluate(symbol)

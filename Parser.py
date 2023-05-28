@@ -53,7 +53,6 @@ class Parser:
                 return FuncCall(valor,filhos)
             else:
                 raise ('VAR ISOLADA')
-            
         elif Parser.tolk.next.type == 'return':
             Parser.tolk.selectNext()
             filho = Parser.parseRelExpr()
@@ -156,7 +155,7 @@ class Parser:
                 filho2 =Parser.parseExepresion()
                 atual  =Binop (tipo,[filho1,filho2])
 
-            elif (Parser.tolk.next.type in ['EOF','break','virgula']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
+            elif (Parser.tolk.next.type in ['EOF','break']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
                 atual=filho1
                 break     
             else:
@@ -177,12 +176,12 @@ class Parser:
                 atual = filho1
                 break
             filho1 = atual
+            filho1 = atual
         return atual
 
     def parseTerm():
         filho1 = Parser.parseFactor()
         while True:
-            
             if (Parser.tolk.next.type == 'div') or (Parser.tolk.next.type == 'times') or (Parser.tolk.next.type == 'and'):
                 tipo = Parser.tolk.next.type
                 Parser.tolk.selectNext() 
@@ -192,19 +191,19 @@ class Parser:
                 atual = filho1
                 break
             filho1 = atual
-            Parser.tolk.selectNext()
         return atual
 
     def parseFactor():
         if Parser.tolk.next.type == 'int':
-            atual = Intvar(int(Parser.tolk.next.value),[])
+            ret = Intvar(int(Parser.tolk.next.value),[]) 
             Parser.tolk.selectNext()
-            return atual
+            return ret
         elif Parser.tolk.next.type == 'string':
-            atual = Stringvar(Parser.tolk.next.value,[])
+            ret = Stringvar(Parser.tolk.next.value,[])
             Parser.tolk.selectNext()
-            return atual
+            return ret
         elif Parser.tolk.next.type == 'var':
+            # return Identifier(Parser.tolk.next.value,[])
             nome = Parser.tolk.next.value
             filhos  = []
             Parser.tolk.selectNext()
@@ -215,10 +214,16 @@ class Parser:
                 while Parser.tolk.next.type != 'C_par':
                     Parser.tolk.selectNext()
                     filhos.append(Parser.parseRelExpr())
-
+                Parser.tolk.selectNext()
                 return FuncCall(nome,filhos)
             else:
                 return Identifier(nome,[])
+
+
+
+
+
+
 
         elif (Parser.tolk.next.type == 'minus') or (Parser.tolk.next.type == 'plus') or (Parser.tolk.next.type == 'not'):
             tipo = Parser.tolk.next.type
@@ -229,6 +234,7 @@ class Parser:
             if  Parser.tolk.next.type == 'O_par':
                 Parser.tolk.selectNext()
                 if (Parser.tolk.next.type == 'C_par'):
+                    Parser.tolk.selectNext()
                     return Readln('',[])
                 else:
                     raise Exception("s",Parser.tolk.next.type,Parser.tolk.next.value)
@@ -237,6 +243,7 @@ class Parser:
                 Parser.tolk.selectNext()
                 salva = Parser.parseRelExpr()
                 if (Parser.tolk.next.type == 'C_par'):
+                    Parser.tolk.selectNext()
                     return salva
                 else:
                     raise Exception("s",Parser.tolk.next.type,Parser.tolk.next.value)
