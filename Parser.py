@@ -155,7 +155,7 @@ class Parser:
                 filho2 =Parser.parseExepresion()
                 atual  =Binop (tipo,[filho1,filho2])
 
-            elif (Parser.tolk.next.type in ['EOF','break']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
+            elif (Parser.tolk.next.type in ['EOF','break','virgula']) or ((Parser.tolk.next.type == 'C_par')and(Parser.abriu)):
                 atual=filho1
                 break     
             else:
