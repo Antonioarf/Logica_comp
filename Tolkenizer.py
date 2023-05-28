@@ -45,15 +45,17 @@ class Tolkenizer:
                 elif nome == 'function':
                     self.next = Token('function','function')
 
-            elif self.source[index:index+2] =='::':
-                while self.source[index]==' ':
-                    index+=1 
-                if self.source[index+pulo:index+pulo+5] =='::Int':
-                    pulo+=5
-                    self.next = Token('Int','tipo')
-                elif self.source[index+pulo:index+pulo+8] =='::String':
-                    pulo+=8
-                    self.next = Token("String",'tipo')
+            elif self.source[index:index+2] == '::':
+                pulo += 2
+                while self.source[index+pulo] == ' ':
+                    pulo += 1
+
+                if self.source[index+pulo:index+pulo+3] == 'Int':
+                    pulo += 3
+                    self.next = Token('Int', 'tipo')
+                elif self.source[index+pulo:index+pulo+6] == 'String':
+                    pulo += 6
+                    self.next = Token('String', 'tipo')
             elif self.source[index] =='"':
                 pulo+=1
                 while self.source[index+pulo] !='"':
@@ -61,7 +63,7 @@ class Tolkenizer:
                 pulo+=1
                 self.next = Token(self.source[index+1:index+pulo-1],'string')
             
-            elif self.source[index] ==',' :
+            elif self.source[index:(index+2)] ==',' :
                 self.next = Token('virgula','virgula')
                 ultimo_n=False
                 pulo+=1
