@@ -1,13 +1,8 @@
 from sys import argv
 from Parser import *
-from tolkens import tabela
+tabela = SymbolClass()
 arq = argv[1]
 roda = Parser()
 resul = roda.run(arq)
-resul.evaluate()
-# print(tabela.tabela)
+resul.evaluate(tabela)
 
-# int*str
-#
-#
-#
