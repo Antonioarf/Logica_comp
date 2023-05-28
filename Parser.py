@@ -85,6 +85,8 @@ class Parser:
                         while Parser.tolk.next.type != 'end':
                             filhos.append(Parser.parseStatment())
                             Parser.tolk.selectNext()
+                            if (Parser.tolk.next.type == 'EOF'):
+                                raise('FIM DE ARQUIVO INESPERADO')
                         Parser.tolk.selectNext()
                         return FuncDec(tipo,[Identifier(nome_func,[])]+ args +[Block('',filhos)])
 
