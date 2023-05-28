@@ -131,8 +131,7 @@ class Tolkenizer:
                 raise Exception("Invalid Char", self.source[index])
             index+=pulo
             self.position = index
-            if  self.next.type != 'C_par':
-                print(self.next.type, self.next.value)
+            # print(self.next.type, self.next.value)
             return self.next
 
         self.next = Token('teste','EOF')
